@@ -39,3 +39,10 @@ export function calculatePriceOfFuel(
 
     return cost;
 }
+
+export function priceOfFuelToCurrency(
+    price: number,
+    splitCostBy: number = 1,
+): string {
+    return DecimalPrecision2.round(price / splitCostBy / 100, 2).toFixed(2);
+}
