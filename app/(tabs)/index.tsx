@@ -1,5 +1,5 @@
 import { View } from "@/components/Themed";
-import { calculatePriceOfFuel, DecimalPrecision2 } from "@/helpers/math";
+import { calculatePriceOfFuel, priceOfFuelToCurrency } from "@/helpers/math";
 import { useEffect, useState } from "react";
 import { ScrollView, Text, TextInput } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -27,21 +27,13 @@ function FuelCalculatorForm() {
                 parseFloat(pricePerLitre),
                 parseFloat(mpg),
             );
-            const costFormatted = DecimalPrecision2.round(
-                cost / 100,
-                2,
-            ).toFixed(2);
+            const costFormatted = priceOfFuelToCurrency(cost);
             setCost(costFormatted);
 
             if (!split || split === "0") {
                 setSplitCost(costFormatted);
             } else {
-                setSplitCost(
-                    DecimalPrecision2.round(
-                        cost / parseInt(split) / 100,
-                        2,
-                    ).toFixed(2),
-                );
+                setSplitCost(priceOfFuelToCurrency(cost, parseInt(split)));
             }
         }
     }, [mpg, distance, pricePerLitre, split]);
