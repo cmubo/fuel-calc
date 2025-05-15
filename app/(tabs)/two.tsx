@@ -28,6 +28,7 @@ export default function TabTwoScreen() {
                 },
             ]);
             const users = await db.select().from(fuelPricesTable);
+
             setItems(users);
         })();
     }, []);

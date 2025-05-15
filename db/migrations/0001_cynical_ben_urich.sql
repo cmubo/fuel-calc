@@ -1,0 +1,1 @@
+ALTER TABLE `fuel_prices` ADD `is_default` real DEFAULT 0 NOT NULL;

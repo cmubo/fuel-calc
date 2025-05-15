@@ -5,6 +5,7 @@ export const fuelPricesTable = sqliteTable("fuel_prices", {
     id: incrementingId,
     name: text("name").notNull(),
     price: real("price").notNull(),
+    isDefault: real("is_default").notNull().default(0),
     createdAt,
     updatedAt,
 });

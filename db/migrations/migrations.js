@@ -2,11 +2,13 @@
 
 import journal from './meta/_journal.json';
 import m0000 from './0000_whole_whizzer.sql';
+import m0001 from './0001_cynical_ben_urich.sql';
 
   export default {
     journal,
     migrations: {
-      m0000
+      m0000,
+m0001
     }
   }
   
