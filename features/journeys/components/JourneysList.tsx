@@ -2,6 +2,7 @@ import { Modal, ModalContent, ModalTrigger } from "@/components/Modal";
 import { twColors } from "@/constants/Colors";
 import { journeysTable } from "@/db/schema";
 import { deleteJourney, getAllJourneys } from "@/features/journeys/db";
+import { DecimalPrecision2 } from "@/helpers/math";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useSQLiteContext } from "expo-sqlite";
 import { Suspense, use, useCallback, useState } from "react";
@@ -72,6 +73,7 @@ function JourneyItem({
     price,
     createdAt,
     splitBetween,
+    pricePerLitre,
 }: typeof journeysTable.$inferSelect) {
     const sqliteContext = useSQLiteContext();
     const [modalVisible, setModalVisible] = useState(false);
@@ -83,10 +85,27 @@ function JourneyItem({
     return (
         <>
             <Modal open={modalVisible} setOpen={setModalVisible}>
-                <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-900 p-4 w-full items-start justify-start">
+                <View className="flex-1 flex-row gap-4 rounded-lg shadow bg-slate-900 p-4 w-full items-start justify-start">
                     <View className="flex-1 flex-col gap-2 flex-grow w-full">
                         <Text className="text-white font-bold text-2xl">
-                            {price}
+                            £{price}
+                        </Text>
+                        {splitBetween > 1 ? (
+                            <Text className="text-slate-400">
+                                Split between {splitBetween} people, cost: £
+                                {DecimalPrecision2.round(
+                                    price / splitBetween,
+                                    2,
+                                )}
+                            </Text>
+                        ) : null}
+
+                        <Text className="text-slate-400">
+                            Distance: {distanceInMiles} miles
+                        </Text>
+                        <Text className="text-slate-400">MPG: {mpg}</Text>
+                        <Text className="text-slate-400">
+                            Price per litre: {pricePerLitre}p
                         </Text>
                     </View>
 

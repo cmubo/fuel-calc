@@ -5,12 +5,11 @@ import {
 } from "react-native";
 
 interface TextInputProps extends RNTextInputProps, UseControllerProps {
-    label: string;
     defaultValue?: string;
 }
 
 export default function TextInput(props: TextInputProps) {
-    const { name, label, rules, defaultValue, ...inputProps } = props;
+    const { name, rules, defaultValue, ...inputProps } = props;
     const { field } = useController({ name, rules, defaultValue });
 
     return (

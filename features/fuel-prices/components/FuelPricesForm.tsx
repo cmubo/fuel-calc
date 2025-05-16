@@ -1,3 +1,4 @@
+import InputWrapper from "@/components/InputWrapper";
 import TextInput from "@/components/TextInput";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
@@ -19,7 +20,7 @@ export default function FuelPricesForm({
     fuelPrice,
     onSuccessfulSubmitCallback,
 }: {
-    fuelPrice?: Partial<typeof fuelPricesTable.$inferSelect> & {
+    fuelPrice?: Partial<typeof fuelPricesTable.$inferInsert> & {
         id: number;
         name: string;
         price: number;
@@ -76,30 +77,24 @@ export default function FuelPricesForm({
     return (
         <View className="w-full flex flex-col gap-4">
             <FormProvider {...form}>
-                <TextInput
-                    name="name"
-                    label="Name"
-                    className={reusableStyles.textInput}
-                    autoCorrect={false}
-                    placeholder="Costco"
-                />
+                <InputWrapper label="Name" errors={errors.name}>
+                    <TextInput
+                        name="name"
+                        className={reusableStyles.textInput}
+                        autoCorrect={false}
+                        placeholder="Costco"
+                    />
+                </InputWrapper>
 
-                {errors.name && (
-                    <Text className="text-white">This is required.</Text>
-                )}
-
-                <TextInput
-                    name="price"
-                    label="Price"
-                    className={reusableStyles.textInput}
-                    keyboardType="number-pad"
-                    autoCorrect={false}
-                    placeholder="125.25"
-                />
-
-                {errors.price && (
-                    <Text className="text-white">{errors.price.message}</Text>
-                )}
+                <InputWrapper label="Price" errors={errors.price}>
+                    <TextInput
+                        name="price"
+                        className={reusableStyles.textInput}
+                        keyboardType="number-pad"
+                        autoCorrect={false}
+                        placeholder="125.25"
+                    />
+                </InputWrapper>
 
                 <TouchableOpacity
                     onPress={handleSubmit(onSubmit)}
