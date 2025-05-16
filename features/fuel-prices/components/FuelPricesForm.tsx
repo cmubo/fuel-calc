@@ -1,10 +1,11 @@
 import TextInput from "@/components/TextInput";
+import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Button, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 import { insertFuelPrice, updateFuelPrice } from "../db";
 import { fuelPriceSchema } from "../schema";
@@ -16,12 +17,14 @@ type FuelPriceRawFormValues = Omit<z.infer<typeof fuelPriceSchema>, "price"> & {
 
 export default function FuelPricesForm({
     fuelPrice,
+    onSuccessfulSubmitCallback,
 }: {
     fuelPrice?: Partial<typeof fuelPricesTable.$inferSelect> & {
         id: number;
         name: string;
         price: number;
     };
+    onSuccessfulSubmitCallback?: () => void;
 }) {
     const sqliteContext = useSQLiteContext();
     const form = useForm<FuelPriceRawFormValues>({
@@ -33,7 +36,7 @@ export default function FuelPricesForm({
               }
             : {
                   name: "",
-                  price: "0",
+                  price: "",
               },
     });
     const {
@@ -60,6 +63,8 @@ export default function FuelPricesForm({
                         price: price,
                     });
                 }
+
+                onSuccessfulSubmitCallback?.();
             } catch (error) {
                 console.log("error: ", error);
                 // TODO: show an error, might be able to use: https://github.com/nandorojo/burnt/
@@ -74,21 +79,34 @@ export default function FuelPricesForm({
                 <TextInput
                     name="name"
                     label="Name"
-                    className="flex text-black rounded-lg text-2xl border-blue-500 border-2 p-4 px-6 bg-black w-full"
+                    className={reusableStyles.textInput}
+                    autoCorrect={false}
+                    placeholder="Costco"
                 />
 
-                {errors.name && <Text>This is required.</Text>}
+                {errors.name && (
+                    <Text className="text-white">This is required.</Text>
+                )}
 
                 <TextInput
                     name="price"
                     label="Price"
-                    className="flex text-black rounded-lg text-2xl border-blue-500 border-2 p-4 px-6 bg-black w-full"
+                    className={reusableStyles.textInput}
                     keyboardType="number-pad"
+                    autoCorrect={false}
+                    placeholder="125.25"
                 />
 
-                {errors.price && <Text>{errors.price.message}</Text>}
+                {errors.price && (
+                    <Text className="text-white">{errors.price.message}</Text>
+                )}
 
-                <Button onPress={handleSubmit(onSubmit)} title="Submit" />
+                <TouchableOpacity
+                    onPress={handleSubmit(onSubmit)}
+                    className="bg-cyan-500 rounded-lg p-3"
+                >
+                    <Text className="text-white text-center">Submit</Text>
+                </TouchableOpacity>
             </FormProvider>
         </View>
     );

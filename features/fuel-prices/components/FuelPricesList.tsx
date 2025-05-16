@@ -1,20 +1,20 @@
+import { Modal, ModalContent, ModalTrigger } from "@/components/Modal";
+import { twColors } from "@/constants/Colors";
 import { fuelPricesTable } from "@/db/schema";
 import {
     deleteFuelPrice,
     getAllFuelPrices,
     setDefaultFuelPrice,
 } from "@/features/fuel-prices/db";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useSQLiteContext } from "expo-sqlite";
 import { Suspense, use, useCallback, useState } from "react";
 import {
     ActivityIndicator,
-    Alert,
-    Button,
     FlatList,
-    Modal,
     Pressable,
-    StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from "react-native";
 import FuelPricesForm from "./FuelPricesForm";
@@ -48,16 +48,7 @@ export default function FuelPricesListContainer() {
 }
 
 interface FuelPricesPageProps {
-    dataPromise: Promise<
-        {
-            id: number;
-            name: string;
-            price: number;
-            createdAt: string;
-            updatedAt: string;
-            isDefault: number;
-        }[]
-    >;
+    dataPromise: Promise<(typeof fuelPricesTable.$inferSelect)[]>;
 }
 
 function FuelPricesList({ dataPromise }: FuelPricesPageProps) {
@@ -65,6 +56,8 @@ function FuelPricesList({ dataPromise }: FuelPricesPageProps) {
 
     return (
         <FlatList
+            className="w-full"
+            contentContainerClassName="gap-4"
             data={fuelPrices}
             renderItem={({ item }) => <FuelPriceItem {...item} />}
             keyExtractor={(item) => item.id.toString()}
@@ -97,73 +90,57 @@ function FuelPriceItem({
 
     return (
         <>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View className="flex-1 items-center justify-center mx-6">
-                    <View
-                        style={styles.modalView}
-                        className="m-5 bg-white rounded-2xl p-6 items-center w-full"
-                    >
-                        <FuelPricesForm fuelPrice={{ id, name, price }} />
-                        <Text className="mb-4 text-center">Hello World!</Text>
-                        <Pressable
-                            className="rounded-2xl p-3"
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}
-                        >
-                            <Text className="text-white font-bold text-center">
-                                Hide Modal
-                            </Text>
-                        </Pressable>
+            <Modal open={modalVisible} setOpen={setModalVisible}>
+                <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-900 p-4 w-full items-start justify-start">
+                    <View className="flex-1 flex-col gap-2 flex-grow w-full">
+                        <Text className="text-slate-200">{name}</Text>
+                        <Text className="text-white font-bold text-2xl">
+                            {price}
+                        </Text>
+                        <Text className="text-slate-400">{updatedAt}</Text>
+                    </View>
+
+                    <View className="flex-none flex-row items-center justify-start gap-4 flex-shrink-0">
+                        <ModalTrigger asChild>
+                            <Pressable>
+                                <FontAwesome
+                                    size={24}
+                                    name="edit"
+                                    color={twColors.slate["300"]}
+                                />
+                            </Pressable>
+                        </ModalTrigger>
+
+                        {isDefault ? (
+                            <FontAwesome
+                                size={24}
+                                name="star"
+                                color={twColors.yellow["400"]}
+                            />
+                        ) : (
+                            <TouchableOpacity onPress={handleSetDefault}>
+                                <FontAwesome
+                                    size={24}
+                                    name="star-o"
+                                    color={twColors.yellow["400"]}
+                                />
+                            </TouchableOpacity>
+                        )}
+
+                        <TouchableOpacity onPress={handleDelete}>
+                            <FontAwesome
+                                size={24}
+                                name="trash"
+                                color={twColors.red["600"]}
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
+
+                <ModalContent>
+                    <FuelPricesForm fuelPrice={{ id, name, price }} />
+                </ModalContent>
             </Modal>
-            <Pressable
-                className="rounded-2xl p-3"
-                style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(true)}
-            >
-                <Text className="text-white font-bold text-center">
-                    Show Modal
-                </Text>
-            </Pressable>
-            <View className="flex flex-row gap-4">
-                <Text>{name}</Text>
-                <Text>{price}</Text>
-                <Text>{updatedAt}</Text>
-                <Text>{isDefault ? "Is default" : "Not default"}</Text>
-                <Button onPress={handleSetDefault} title="Set as default" />
-                <Button onPress={handleDelete} title="Delete" />
-            </View>
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    modalView: {
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    button: {
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-});
