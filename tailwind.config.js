@@ -1,3 +1,13 @@
+const reusableStyles = require("./constants/reusable-styles");
+
+function getSafelistFromReusableStyles(reusableStyles) {
+    const safeList = [];
+    for (const value of Object.values(reusableStyles)) {
+        safeList.push(...value.split(" "));
+    }
+    return safeList;
+}
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
@@ -10,4 +20,5 @@ module.exports = {
         extend: {},
     },
     plugins: [],
+    safelist: [...getSafelistFromReusableStyles(reusableStyles)],
 };

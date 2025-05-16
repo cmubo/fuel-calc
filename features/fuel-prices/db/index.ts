@@ -1,12 +1,10 @@
 import * as schema from "@/db/schema";
 import { fuelPricesTable } from "@/db/schema";
-import timedPromise from "@/helpers/timed-promise";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { SQLiteDatabase } from "expo-sqlite";
 
 export async function getAllFuelPrices(SQLite: SQLiteDatabase) {
-    await timedPromise(2); // TODO: remove this
     const db = drizzle(SQLite, { schema });
 
     return db.select().from(fuelPricesTable);
@@ -90,7 +88,8 @@ export async function deleteFuelPrice(SQLite: SQLiteDatabase, id: number) {
         .where(eq(fuelPricesTable.id, id))
         .returning();
 
-    if (deletedPackaging == null) throw new Error("Failed to delete packaging");
+    if (deletedPackaging == null)
+        throw new Error("Failed to delete fuel price");
 
     return deletedPackaging;
 }

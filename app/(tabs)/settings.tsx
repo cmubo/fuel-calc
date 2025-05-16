@@ -7,7 +7,7 @@ import {
     View,
 } from "react-native";
 
-export default function SettingsPage() {
+export default function SettingsScreen() {
     return (
         <SafeAreaView className="bg-slate-950 w-full flex-1">
             <View className=" p-4 w-full flex-1">

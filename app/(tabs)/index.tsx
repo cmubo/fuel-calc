@@ -102,7 +102,7 @@ function FuelCalculatorForm() {
     );
 }
 
-export default function TabOneScreen() {
+export default function CalculatorScreen() {
     const insets = useSafeAreaInsets();
     return (
         <SafeAreaView className="bg-slate-950">
