@@ -23,7 +23,7 @@ interface TabIconProps {
 function TabIcon({ focused, icon, title }: TabIconProps) {
     return (
         <View
-            className={`flex flex-row w-full  min-w-[112px] min-h-[52px] justify-center items-center rounded-full overflow-hidden mt-4 ${focused ? "bg-blue-500" : ""}`}
+            className={`flex flex-col w-full  min-w-[112px] min-h-[52px] justify-center items-center rounded-full overflow-hidden mt-4 ${focused ? "bg-blue-500" : ""}`}
         >
             {icon}
             <Text className="text-white text-base font-semibold ml-2">
@@ -86,6 +86,19 @@ export default function TabLayout() {
                             focused={focused}
                             title="Tab 2"
                             icon={<TabBarIcon name="code" color={color} />}
+                        />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="settings"
+                options={{
+                    title: "Settings",
+                    tabBarIcon: ({ focused, color }) => (
+                        <TabIcon
+                            focused={focused}
+                            title="Settings"
+                            icon={<TabBarIcon name="cog" color={color} />}
                         />
                     ),
                 }}

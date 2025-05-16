@@ -1,7 +1,7 @@
-import { View } from "@/components/Themed";
+import reusableStyles from "@/constants/reusable-styles";
 import { calculatePriceOfFuel, priceOfFuelToCurrency } from "@/helpers/math";
 import { useEffect, useState } from "react";
-import { ScrollView, Text, TextInput } from "react-native";
+import { SafeAreaView, ScrollView, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 function FuelCalculatorForm() {
@@ -47,7 +47,7 @@ function FuelCalculatorForm() {
                         placeholder="0"
                         value={distance}
                         onChangeText={handleDistanceChange}
-                        className="flex text-white rounded-lg text-2xl border-blue-500 border-2 p-4 px-6"
+                        className={reusableStyles.textInput}
                         keyboardType="number-pad"
                     />
                 </View>
@@ -60,7 +60,7 @@ function FuelCalculatorForm() {
                         placeholder="0"
                         value={pricePerLitre}
                         onChangeText={handlePricePerLitreChange}
-                        className="flex text-white rounded-lg text-2xl border-blue-500 border-2 p-4 px-6"
+                        className={reusableStyles.textInput}
                         keyboardType="number-pad"
                     />
                 </View>
@@ -71,7 +71,7 @@ function FuelCalculatorForm() {
                         placeholder="0"
                         value={mpg}
                         onChangeText={handleMpgChange}
-                        className="flex text-white rounded-lg text-2xl border-blue-500 border-2 p-4 px-6"
+                        className={reusableStyles.textInput}
                         keyboardType="number-pad"
                     />
                 </View>
@@ -84,7 +84,7 @@ function FuelCalculatorForm() {
                         placeholder="1"
                         value={split}
                         onChangeText={handleSplitChange}
-                        className="flex text-white rounded-lg text-2xl border-blue-500 border-2 p-4 px-6"
+                        className={reusableStyles.textInput}
                         keyboardType="number-pad"
                     />
                 </View>
@@ -105,16 +105,18 @@ function FuelCalculatorForm() {
 export default function TabOneScreen() {
     const insets = useSafeAreaInsets();
     return (
-        <ScrollView
-            contentContainerClassName="px-4"
-            contentContainerStyle={{
-                minHeight: "100%",
-                paddingBottom: insets.bottom + 60,
-                paddingTop: insets.top,
-            }}
-            showsVerticalScrollIndicator={false}
-        >
-            <FuelCalculatorForm />
-        </ScrollView>
+        <SafeAreaView className="bg-slate-950">
+            <ScrollView
+                contentContainerClassName="px-4"
+                contentContainerStyle={{
+                    minHeight: "100%",
+                    paddingBottom: insets.bottom + 60,
+                    paddingTop: insets.top,
+                }}
+                showsVerticalScrollIndicator={false}
+            >
+                <FuelCalculatorForm />
+            </ScrollView>
+        </SafeAreaView>
     );
 }
