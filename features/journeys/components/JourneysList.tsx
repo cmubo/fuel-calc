@@ -4,8 +4,9 @@ import { journeysTable } from "@/db/schema";
 import { deleteJourney, getAllJourneys } from "@/features/journeys/db";
 import { DecimalPrecision2 } from "@/helpers/math";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Link } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import { Suspense, use, useCallback, useState } from "react";
+import React, { Suspense, use, useCallback, useState } from "react";
 import {
     ActivityIndicator,
     FlatList,
@@ -14,6 +15,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import JourneyForm from "./JourneyForm";
 
 // TODO: Styling
 // List items
@@ -58,8 +60,16 @@ function JourneysList({ dataPromise }: JourneysPageProps) {
             renderItem={({ item }) => <JourneyItem {...item} />}
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={
-                <View>
-                    <Text>No journeys saved</Text>
+                <View className="items-center py-8">
+                    <Text className="text-center text-white font-medium text-2xl">
+                        No journeys saved
+                    </Text>
+                    <Link
+                        href="/(tabs)"
+                        className="text-blue-500 font-medium text-lg mt-8"
+                    >
+                        Create new journey
+                    </Link>
                 </View>
             }
         />
@@ -131,8 +141,20 @@ function JourneyItem({
                 </View>
 
                 <ModalContent>
-                    <Text>Form will go here</Text>
-                    {/* <JourneysForm fuelPrice={{ id, name, price }} /> */}
+                    <JourneyForm
+                        journey={{
+                            id,
+                            distanceInMiles,
+                            mpg,
+                            price,
+                            createdAt,
+                            splitBetween,
+                            pricePerLitre,
+                        }}
+                        onSuccessfulSubmitCallback={() => {
+                            setModalVisible(false);
+                        }}
+                    />
                 </ModalContent>
             </Modal>
         </>

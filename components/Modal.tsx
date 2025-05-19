@@ -4,6 +4,7 @@ import {
     Pressable,
     PressableProps,
     Modal as RNModal,
+    ScrollView,
     StyleSheet,
     TouchableOpacity,
     View,
@@ -71,9 +72,14 @@ export function ModalContent({ children }: { children: React.ReactNode }) {
             }}
         >
             <View className="flex-1 items-center justify-center mx-6">
-                <View
+                <ScrollView
+                    contentContainerStyle={{
+                        alignItems: "center",
+                        padding: 24,
+                    }}
                     style={styles.modalView}
-                    className="m-5 bg-slate-950 border-slate-800 rounded-2xl p-6 items-center w-full flex-none flex-col gap-4"
+                    className="m-5 bg-slate-950 border-slate-800 border rounded-2xl w-full flex-none flex-col gap-4"
+                    showsVerticalScrollIndicator={false}
                 >
                     <View className="w-full flex-auto items-end">
                         <TouchableOpacity onPress={() => setOpen(!open)}>
@@ -82,7 +88,7 @@ export function ModalContent({ children }: { children: React.ReactNode }) {
                     </View>
 
                     {children}
-                </View>
+                </ScrollView>
             </View>
         </RNModal>
     );

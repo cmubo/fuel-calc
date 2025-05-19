@@ -2,7 +2,11 @@ import InputWrapper from "@/components/InputWrapper";
 import TextInput from "@/components/TextInput";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
-import { calculatePriceOfFuel, priceOfFuelToCurrency } from "@/helpers/math";
+import {
+    calculatePriceOfFuel,
+    DecimalPrecision2,
+    priceOfFuelToCurrency,
+} from "@/helpers/math";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useEffect, useState } from "react";
@@ -21,7 +25,6 @@ type JourneyRawFormValues = Omit<
     pricePerLitre: string | number;
     distanceInMiles: string | number;
     splitBetween: string | number;
-    // price: string | number;
 };
 
 export default function JourneyForm({
@@ -50,29 +53,42 @@ export default function JourneyForm({
                   pricePerLitre: String(journey.pricePerLitre),
                   distanceInMiles: String(journey.distanceInMiles),
                   splitBetween: String(journey.splitBetween),
-                  //   price: String(journey.price),
               }
             : {
                   mpg: "",
                   pricePerLitre: "",
                   distanceInMiles: "",
                   splitBetween: "",
-                  //   price: "",
               },
     });
 
     const {
         handleSubmit,
-        getValues,
         formState: { errors },
         watch,
         reset,
     } = form;
 
+    const setCostsCallbackRef = useCallback(() => {
+        if (!journey?.price) return;
+
+        setCost(journey.price.toFixed(2));
+
+        if (journey?.splitBetween) {
+            setSplitCost(
+                DecimalPrecision2.round(
+                    journey.price / journey.splitBetween,
+                    2,
+                ).toFixed(2),
+            );
+        }
+    }, [journey?.price]);
+
     useEffect(() => {
         const { unsubscribe } = watch((values) => {
             onFieldChange(values);
         });
+
         return () => unsubscribe();
     }, [watch]);
 
@@ -88,18 +104,9 @@ export default function JourneyForm({
             distanceInMiles?: string | number;
             splitBetween?: string | number;
         }) => {
-            // const values = getValues();
-            // const mpg = values.mpg;
-            // const pricePerLitre = values.pricePerLitre;
-            // const distanceInMiles = values.distanceInMiles;
-            // const splitBetween = values.splitBetween;
-            // const price = values.price;
-
-            // console.log(values);
             if (!mpg || !pricePerLitre || !distanceInMiles || !splitBetween) {
                 setSplitCost("0");
                 setCost("0");
-                // form.setValue("price", "");
                 return;
             }
 
@@ -112,15 +119,12 @@ export default function JourneyForm({
             const costFormatted = priceOfFuelToCurrency(cost);
 
             setCost(costFormatted);
-            // form.setValue("price", costFormatted);
 
             if (!splitBetween || Number(splitBetween) === 0) {
                 setSplitCost(costFormatted);
             } else {
                 setSplitCost(priceOfFuelToCurrency(cost, Number(splitBetween)));
             }
-
-            // console.log(values);
         },
         [],
     );
@@ -215,17 +219,20 @@ export default function JourneyForm({
                         autoCorrect={false}
                         placeholder="1"
                         keyboardType="number-pad"
-                        // onChange={onFieldChange}
                     />
                 </InputWrapper>
 
-                <View>
-                    <Text className="text-white text-lg">Cost:</Text>
-                    <Text className="text-white text-3xl">£{cost}</Text>
-                </View>
-                <View>
-                    <Text className="text-white text-lg">Split Cost:</Text>
-                    <Text className="text-white text-3xl">£{splitCost}</Text>
+                <View ref={setCostsCallbackRef} className="gap-2">
+                    <View>
+                        <Text className="text-white text-lg">Cost:</Text>
+                        <Text className="text-white text-3xl">£{cost}</Text>
+                    </View>
+                    <View>
+                        <Text className="text-white text-lg">Split Cost:</Text>
+                        <Text className="text-white text-3xl">
+                            £{splitCost}
+                        </Text>
+                    </View>
                 </View>
 
                 <TouchableOpacity
@@ -237,7 +244,7 @@ export default function JourneyForm({
 
                 <TouchableOpacity
                     onPress={() => reset()}
-                    className="bg-red-500 rounded-lg p-3 mt-8"
+                    className="bg-red-500 rounded-lg p-3 mt-2"
                 >
                     <Text className="text-white text-center">Reset Form</Text>
                 </TouchableOpacity>
