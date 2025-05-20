@@ -15,6 +15,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 import { insertJourney, updateJourney } from "../db";
 import { journeySchema } from "../schema";
+import SelectFuelPriceModal from "./SelectFuelPriceModal";
 
 // This type represents the data structure as it exists in the form fields themselves
 type JourneyRawFormValues = Omit<
@@ -27,10 +28,7 @@ type JourneyRawFormValues = Omit<
     splitBetween: string | number;
 };
 
-export default function JourneyForm({
-    journey,
-    onSuccessfulSubmitCallback,
-}: {
+interface JourneyFormProps {
     journey?: Partial<typeof fuelPricesTable.$inferInsert> & {
         id: number;
         mpg: number;
@@ -40,7 +38,14 @@ export default function JourneyForm({
         splitBetween: number;
     };
     onSuccessfulSubmitCallback?: () => void;
-}) {
+    defaultFuelPrice?: number | null;
+}
+
+export default function JourneyForm({
+    journey,
+    onSuccessfulSubmitCallback,
+    defaultFuelPrice,
+}: JourneyFormProps) {
     const [splitCost, setSplitCost] = useState("0");
     const [cost, setCost] = useState("0");
 
@@ -56,7 +61,9 @@ export default function JourneyForm({
               }
             : {
                   mpg: "",
-                  pricePerLitre: "",
+                  pricePerLitre: defaultFuelPrice
+                      ? String(defaultFuelPrice)
+                      : "",
                   distanceInMiles: "",
                   splitBetween: "",
               },
@@ -67,6 +74,7 @@ export default function JourneyForm({
         formState: { errors },
         watch,
         reset,
+        setValue,
     } = form;
 
     const setCostsCallbackRef = useCallback(() => {
@@ -82,7 +90,7 @@ export default function JourneyForm({
                 ).toFixed(2),
             );
         }
-    }, [journey?.price]);
+    }, [journey?.price, journey?.splitBetween]);
 
     useEffect(() => {
         const { unsubscribe } = watch((values) => {
@@ -187,13 +195,21 @@ export default function JourneyForm({
                     label="Price Per Litre (pence)"
                     errors={errors.pricePerLitre}
                 >
-                    <TextInput
-                        name="pricePerLitre"
-                        className={reusableStyles.textInput}
-                        autoCorrect={false}
-                        placeholder="125.50"
-                        keyboardType="number-pad"
-                    />
+                    <View className="flex-1 flex-row gap-2">
+                        <TextInput
+                            name="pricePerLitre"
+                            className={reusableStyles.textInput}
+                            autoCorrect={false}
+                            placeholder="125.50"
+                            keyboardType="number-pad"
+                        />
+
+                        <SelectFuelPriceModal
+                            onFuelPriceSelect={(price) =>
+                                setValue("pricePerLitre", String(price))
+                            }
+                        />
+                    </View>
                 </InputWrapper>
 
                 <InputWrapper

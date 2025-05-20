@@ -11,6 +11,7 @@ import {
     ActivityIndicator,
     FlatList,
     Pressable,
+    ScrollView,
     Text,
     TouchableOpacity,
     View,
@@ -141,20 +142,28 @@ function JourneyItem({
                 </View>
 
                 <ModalContent>
-                    <JourneyForm
-                        journey={{
-                            id,
-                            distanceInMiles,
-                            mpg,
-                            price,
-                            createdAt,
-                            splitBetween,
-                            pricePerLitre,
+                    <ScrollView
+                        contentContainerStyle={{
+                            alignItems: "center",
+                            paddingHorizontal: 24,
+                            paddingBottom: 24,
                         }}
-                        onSuccessfulSubmitCallback={() => {
-                            setModalVisible(false);
-                        }}
-                    />
+                    >
+                        <JourneyForm
+                            journey={{
+                                id,
+                                distanceInMiles,
+                                mpg,
+                                price,
+                                createdAt,
+                                splitBetween,
+                                pricePerLitre,
+                            }}
+                            onSuccessfulSubmitCallback={() => {
+                                setModalVisible(false);
+                            }}
+                        />
+                    </ScrollView>
                 </ModalContent>
             </Modal>
         </>

@@ -3,7 +3,7 @@ import { twColors } from "@/constants/Colors";
 import FuelPricesForm from "@/features/fuel-prices/components/FuelPricesForm";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 
 export default function fuelPricesFormModal() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,11 +21,18 @@ export default function fuelPricesFormModal() {
             </ModalTrigger>
 
             <ModalContent>
-                <FuelPricesForm
-                    onSuccessfulSubmitCallback={() =>
-                        setModalVisible(!modalVisible)
-                    }
-                />
+                <ScrollView
+                    contentContainerStyle={{
+                        paddingHorizontal: 24,
+                        paddingBottom: 24,
+                    }}
+                >
+                    <FuelPricesForm
+                        onSuccessfulSubmitCallback={() =>
+                            setModalVisible(!modalVisible)
+                        }
+                    />
+                </ScrollView>
             </ModalContent>
         </Modal>
     );

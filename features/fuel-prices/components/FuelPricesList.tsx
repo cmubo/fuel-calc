@@ -13,6 +13,7 @@ import {
     ActivityIndicator,
     FlatList,
     Pressable,
+    ScrollView,
     Text,
     TouchableOpacity,
     View,
@@ -138,7 +139,14 @@ function FuelPriceItem({
                 </View>
 
                 <ModalContent>
-                    <FuelPricesForm fuelPrice={{ id, name, price }} />
+                    <ScrollView
+                        contentContainerStyle={{
+                            paddingHorizontal: 24,
+                            paddingBottom: 24,
+                        }}
+                    >
+                        <FuelPricesForm fuelPrice={{ id, name, price }} />
+                    </ScrollView>
                 </ModalContent>
             </Modal>
         </>

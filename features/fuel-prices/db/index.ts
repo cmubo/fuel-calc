@@ -10,6 +10,16 @@ export async function getAllFuelPrices(SQLite: SQLiteDatabase) {
     return db.select().from(fuelPricesTable);
 }
 
+export async function getDefaultFuelPrice(SQLite: SQLiteDatabase) {
+    const db = drizzle(SQLite, { schema });
+
+    return db
+        .select()
+        .from(fuelPricesTable)
+        .where(eq(fuelPricesTable.isDefault, 1))
+        .limit(1);
+}
+
 export async function insertFuelPrice(
     SQLite: SQLiteDatabase,
     data: typeof fuelPricesTable.$inferInsert,
