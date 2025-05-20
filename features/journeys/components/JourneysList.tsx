@@ -1,14 +1,15 @@
 import { Modal, ModalContent, ModalTrigger } from "@/components/Modal";
+import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { twColors } from "@/constants/Colors";
 import { journeysTable } from "@/db/schema";
 import { deleteJourney, getAllJourneys } from "@/features/journeys/db";
 import { DecimalPrecision2 } from "@/helpers/math";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import React, { Suspense, use, useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
-    ActivityIndicator,
     FlatList,
     Pressable,
     ScrollView,
@@ -18,40 +19,21 @@ import {
 } from "react-native";
 import JourneyForm from "./JourneyForm";
 
-// TODO: Styling
-// List items
-// No list items
-// Loading state
-// Error state
-// Modal
-
-export default function JourneysListContainer() {
+export default function JourneysList() {
     const sqliteContext = useSQLiteContext();
-    const journeys = getAllJourneys(sqliteContext);
 
-    return (
-        <Suspense
-            fallback={
-                <View className="flex items-center justify-center w-full h-full flex-col">
-                    <ActivityIndicator
-                        size="large"
-                        color="#0000ff"
-                        className="my-3"
-                    />
-                </View>
-            }
-        >
-            <JourneysList dataPromise={journeys} />
-        </Suspense>
-    );
-}
+    const {
+        data: journeys,
+        isPending,
+        isError,
+    } = useQuery({
+        queryKey: ["journeys"],
+        queryFn: getAllJourneys.bind(null, sqliteContext),
+    });
 
-interface JourneysPageProps {
-    dataPromise: Promise<(typeof journeysTable.$inferSelect)[]>;
-}
-
-function JourneysList({ dataPromise }: JourneysPageProps) {
-    const journeys = use(dataPromise);
+    if (isPending || isError) {
+        return <QueryLoadingAndErrorState {...{ isPending, isError }} />;
+    }
 
     return (
         <FlatList
@@ -86,12 +68,18 @@ function JourneyItem({
     splitBetween,
     pricePerLitre,
 }: typeof journeysTable.$inferSelect) {
+    const queryClient = useQueryClient();
     const sqliteContext = useSQLiteContext();
     const [modalVisible, setModalVisible] = useState(false);
 
-    const handleDelete = useCallback(() => {
-        deleteJourney(sqliteContext, id);
-    }, [id]);
+    const mutation = useMutation({
+        mutationFn: deleteJourney.bind(null, sqliteContext, id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["journeys"],
+            });
+        },
+    });
 
     return (
         <>
@@ -131,7 +119,7 @@ function JourneyItem({
                             </Pressable>
                         </ModalTrigger>
 
-                        <TouchableOpacity onPress={handleDelete}>
+                        <TouchableOpacity onPress={() => mutation.mutate()}>
                             <FontAwesome
                                 size={24}
                                 name="trash"

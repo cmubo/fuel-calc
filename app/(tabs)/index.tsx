@@ -1,14 +1,9 @@
+import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { getDefaultFuelPrice } from "@/features/fuel-prices/db";
 import JourneyForm from "@/features/journeys/components/JourneyForm";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import {
-    ActivityIndicator,
-    SafeAreaView,
-    ScrollView,
-    Text,
-    View,
-} from "react-native";
+import { SafeAreaView, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CalculatorScreenWrapper() {
@@ -21,7 +16,6 @@ export default function CalculatorScreenWrapper() {
 
 function CalculatorScreen() {
     const sqliteContext = useSQLiteContext();
-
     const insets = useSafeAreaInsets();
 
     const {
@@ -33,24 +27,8 @@ function CalculatorScreen() {
         queryFn: getDefaultFuelPrice.bind(null, sqliteContext),
     });
 
-    if (isPending) {
-        return (
-            <View className="flex items-center justify-center w-full h-full flex-col">
-                <ActivityIndicator
-                    size="large"
-                    color="#0000ff"
-                    className="my-3"
-                />
-            </View>
-        );
-    }
-
-    if (isError) {
-        return (
-            <View className="flex items-center justify-center w-full h-full flex-col">
-                <Text>There was an error</Text>
-            </View>
-        );
+    if (isPending || isError) {
+        return <QueryLoadingAndErrorState {...{ isPending, isError }} />;
     }
 
     return (
