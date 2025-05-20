@@ -3,6 +3,7 @@ import TextInput from "@/components/TextInput";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -28,6 +29,8 @@ export default function FuelPricesForm({
     onSuccessfulSubmitCallback?: () => void;
 }) {
     const sqliteContext = useSQLiteContext();
+    const queryClient = useQueryClient();
+
     const form = useForm<FuelPriceRawFormValues>({
         resolver: zodResolver(fuelPriceSchema),
         defaultValues: fuelPrice
@@ -65,13 +68,17 @@ export default function FuelPricesForm({
                     });
                 }
 
+                queryClient.invalidateQueries({
+                    queryKey: ["fuelPrices"],
+                });
+
                 onSuccessfulSubmitCallback?.();
             } catch (error) {
                 console.log("error: ", error);
                 // TODO: show an error, might be able to use: https://github.com/nandorojo/burnt/
             }
         },
-        [fuelPrice, sqliteContext],
+        [fuelPrice, sqliteContext, onSuccessfulSubmitCallback, queryClient],
     );
 
     return (

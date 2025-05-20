@@ -1,4 +1,5 @@
 import { Modal, ModalContent, ModalTrigger } from "@/components/Modal";
+import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { twColors } from "@/constants/Colors";
 import { fuelPricesTable } from "@/db/schema";
 import {
@@ -7,10 +8,10 @@ import {
     setDefaultFuelPrice,
 } from "@/features/fuel-prices/db";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { Suspense, use, useCallback, useState } from "react";
+import { useMemo, useState } from "react";
 import {
-    ActivityIndicator,
     FlatList,
     Pressable,
     ScrollView,
@@ -20,40 +21,21 @@ import {
 } from "react-native";
 import FuelPricesForm from "./FuelPricesForm";
 
-// TODO: Styling
-// List items
-// No list items
-// Loading state
-// Error state
-// Modal
-
-export default function FuelPricesListContainer() {
+export default function FuelPricesList() {
     const sqliteContext = useSQLiteContext();
-    const fuelPrices = getAllFuelPrices(sqliteContext);
 
-    return (
-        <Suspense
-            fallback={
-                <View className="flex items-center justify-center w-full h-full flex-col">
-                    <ActivityIndicator
-                        size="large"
-                        color="#0000ff"
-                        className="my-3"
-                    />
-                </View>
-            }
-        >
-            <FuelPricesList dataPromise={fuelPrices} />
-        </Suspense>
-    );
-}
+    const {
+        data: fuelPrices,
+        isPending,
+        isError,
+    } = useQuery({
+        queryKey: ["fuelPrices"],
+        queryFn: getAllFuelPrices.bind(null, sqliteContext),
+    });
 
-interface FuelPricesPageProps {
-    dataPromise: Promise<(typeof fuelPricesTable.$inferSelect)[]>;
-}
-
-function FuelPricesList({ dataPromise }: FuelPricesPageProps) {
-    const fuelPrices = use(dataPromise);
+    if (isPending || isError) {
+        return <QueryLoadingAndErrorState {...{ isPending, isError }} />;
+    }
 
     return (
         <FlatList
@@ -75,19 +57,32 @@ function FuelPriceItem({
     id,
     name,
     price,
-    updatedAt,
     isDefault,
 }: typeof fuelPricesTable.$inferSelect) {
+    const queryClient = useQueryClient();
     const sqliteContext = useSQLiteContext();
     const [modalVisible, setModalVisible] = useState(false);
+    const priceMemoised = useMemo(() => {
+        return price.toFixed(2);
+    }, [price]);
 
-    const handleSetDefault = useCallback(() => {
-        setDefaultFuelPrice(sqliteContext, id);
-    }, [id]);
+    const { mutate: handleSetDefault } = useMutation({
+        mutationFn: setDefaultFuelPrice.bind(null, sqliteContext, id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["fuelPrices"],
+            });
+        },
+    });
 
-    const handleDelete = useCallback(() => {
-        deleteFuelPrice(sqliteContext, id);
-    }, [id]);
+    const { mutate: handleDelete } = useMutation({
+        mutationFn: deleteFuelPrice.bind(null, sqliteContext, id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["fuelPrices"],
+            });
+        },
+    });
 
     return (
         <>
@@ -96,9 +91,8 @@ function FuelPriceItem({
                     <View className="flex-1 flex-col gap-2 flex-grow w-full">
                         <Text className="text-slate-200">{name}</Text>
                         <Text className="text-white font-bold text-2xl">
-                            {price}
+                            {priceMemoised}
                         </Text>
-                        <Text className="text-slate-400">{updatedAt}</Text>
                     </View>
 
                     <View className="flex-none flex-row items-center justify-start gap-4 flex-shrink-0">
@@ -119,7 +113,9 @@ function FuelPriceItem({
                                 color={twColors.yellow["400"]}
                             />
                         ) : (
-                            <TouchableOpacity onPress={handleSetDefault}>
+                            <TouchableOpacity
+                                onPress={() => handleSetDefault()}
+                            >
                                 <FontAwesome
                                     size={24}
                                     name="star-o"
@@ -128,7 +124,7 @@ function FuelPriceItem({
                             </TouchableOpacity>
                         )}
 
-                        <TouchableOpacity onPress={handleDelete}>
+                        <TouchableOpacity onPress={() => handleDelete()}>
                             <FontAwesome
                                 size={24}
                                 name="trash"

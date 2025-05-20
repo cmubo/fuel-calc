@@ -9,7 +9,7 @@ export default function fuelPricesFormModal() {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <Modal>
+        <Modal open={modalVisible}>
             <ModalTrigger asChild>
                 <TouchableOpacity className="bg-cyan-500 rounded-full shadow p-3 absolute bottom-6 right-6 w-12 h-12 flex items-center justify-center">
                     <FontAwesome

@@ -32,7 +32,7 @@ export function Modal({
     return (
         <modalContext.Provider
             value={{
-                open: open ? open : modalVisible,
+                open: open === undefined ? modalVisible : open,
                 setOpen: setOpen ? setOpen : setModalVisible,
             }}
         >
