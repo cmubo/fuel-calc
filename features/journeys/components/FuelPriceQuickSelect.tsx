@@ -1,16 +1,11 @@
 import { modalContext } from "@/components/Modal";
-import { fuelPricesTable } from "@/db/schema";
+import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { getAllFuelPrices } from "@/features/fuel-prices/db";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { Suspense, use, useContext } from "react";
-import {
-    ActivityIndicator,
-    FlatList,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { useContext } from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 export default function FuelPriceQuickSelect({
     onFuelPriceSelect,
@@ -18,37 +13,20 @@ export default function FuelPriceQuickSelect({
     onFuelPriceSelect: (price: number) => void;
 }) {
     const sqliteContext = useSQLiteContext();
-    const fuelPrices = getAllFuelPrices(sqliteContext);
-
-    return (
-        <Suspense
-            fallback={
-                <View className="flex items-center justify-center w-full h-full flex-col">
-                    <ActivityIndicator
-                        size="large"
-                        color="#0000ff"
-                        className="my-3"
-                    />
-                </View>
-            }
-        >
-            <FuelPriceList
-                dataPromise={fuelPrices}
-                onFuelPriceSelect={onFuelPriceSelect}
-            />
-        </Suspense>
-    );
-}
-
-function FuelPriceList({
-    onFuelPriceSelect,
-    dataPromise,
-}: {
-    onFuelPriceSelect: (price: number) => void;
-    dataPromise: Promise<(typeof fuelPricesTable.$inferSelect)[]>;
-}) {
-    const fuelPrices = use(dataPromise);
     const { setOpen } = useContext(modalContext);
+
+    const {
+        data: fuelPrices,
+        isPending,
+        isError,
+    } = useQuery({
+        queryKey: ["fuelPrices"],
+        queryFn: getAllFuelPrices.bind(null, sqliteContext),
+    });
+
+    if (isPending || isError) {
+        return <QueryLoadingAndErrorState {...{ isPending, isError }} />;
+    }
 
     return (
         <FlatList
