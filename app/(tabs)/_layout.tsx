@@ -67,25 +67,25 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: "Tab One",
+                    title: "Calculator",
                     tabBarIcon: ({ focused, color }) => (
                         <TabIcon
                             focused={focused}
-                            title="Home"
-                            icon={<TabBarIcon name="code" color={color} />}
+                            title="Calculator"
+                            icon={<TabBarIcon name="home" color={color} />}
                         />
                     ),
                 }}
             />
             <Tabs.Screen
-                name="two"
+                name="journeys"
                 options={{
-                    title: "Tab Two",
+                    title: "Journeys",
                     tabBarIcon: ({ focused, color }) => (
                         <TabIcon
                             focused={focused}
-                            title="Tab 2"
-                            icon={<TabBarIcon name="code" color={color} />}
+                            title="Journeys"
+                            icon={<TabBarIcon name="road" color={color} />}
                         />
                     ),
                 }}

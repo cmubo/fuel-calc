@@ -70,12 +70,12 @@ export function ModalContent({ children }: { children: React.ReactNode }) {
                 setOpen(!open);
             }}
         >
-            <View className="flex-1 items-center justify-center mx-6">
+            <View className="flex-1 items-center justify-center m-6 my-12">
                 <View
                     style={styles.modalView}
-                    className="m-5 bg-slate-950 border-slate-800 rounded-2xl p-6 items-center w-full flex-none flex-col gap-4"
+                    className=" bg-slate-950 border-slate-800 border rounded-2xl w-full flex-none flex-col"
                 >
-                    <View className="w-full flex-auto items-end">
+                    <View className="w-full flex-auto items-end p-4">
                         <TouchableOpacity onPress={() => setOpen(!open)}>
                             <FontAwesome name="close" color="#fff" size={24} />
                         </TouchableOpacity>
