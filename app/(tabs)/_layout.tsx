@@ -3,7 +3,6 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 
-import { useColorScheme } from "@/components/useColorScheme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -34,7 +33,6 @@ function TabIcon({ focused, icon, title }: TabIconProps) {
 }
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
     const insets = useSafeAreaInsets();
 
     return (
