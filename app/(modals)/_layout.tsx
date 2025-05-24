@@ -28,6 +28,16 @@ export default function ModalsLayout() {
                 name="editJourney/[id]"
                 options={{ title: "Edit Journey" }}
             />
+            <Stack.Screen
+                name="newFuelPrice/index"
+                options={{
+                    title: "New Fuel Price",
+                }}
+            />
+            <Stack.Screen
+                name="editFuelPrice/[id]"
+                options={{ title: "Edit Fuel Price" }}
+            />
         </Stack>
     );
 }

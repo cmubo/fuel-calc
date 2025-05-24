@@ -1,4 +1,3 @@
-import { Modal, ModalContent, ModalTrigger } from "@/components/Modal";
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { twColors } from "@/constants/Colors";
 import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
@@ -10,19 +9,18 @@ import {
 } from "@/features/fuel-prices/db";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useMemo, useState } from "react";
 import {
     FlatList,
     Pressable,
     RefreshControl,
-    ScrollView,
     Text,
     TouchableOpacity,
     View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import FuelPricesForm from "./FuelPricesForm";
 
 export default function FuelPricesList() {
     const sqliteContext = useSQLiteContext();
@@ -91,7 +89,6 @@ function FuelPriceItem({
 }: typeof fuelPricesTable.$inferSelect) {
     const queryClient = useQueryClient();
     const sqliteContext = useSQLiteContext();
-    const [modalVisible, setModalVisible] = useState(false);
 
     const priceMemoised = useMemo(() => {
         return price.toFixed(2);
@@ -116,66 +113,49 @@ function FuelPriceItem({
     });
 
     return (
-        <>
-            <Modal open={modalVisible} setOpen={setModalVisible}>
-                <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-900 p-4 w-full items-start justify-start">
-                    <View className="flex-1 flex-col gap-2 flex-grow w-full">
-                        <Text className="text-slate-200">{name}</Text>
-                        <Text className="text-white font-bold text-2xl">
-                            {priceMemoised}
-                        </Text>
-                    </View>
+        <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-900 p-4 w-full items-start justify-start">
+            <View className="flex-1 flex-col gap-2 flex-grow w-full">
+                <Text className="text-slate-200">{name}</Text>
+                <Text className="text-white font-bold text-2xl">
+                    {priceMemoised}
+                </Text>
+            </View>
 
-                    <View className="flex-none flex-row items-center justify-start gap-4 flex-shrink-0">
-                        <ModalTrigger asChild>
-                            <Pressable>
-                                <FontAwesome
-                                    size={24}
-                                    name="edit"
-                                    color={twColors.slate["300"]}
-                                />
-                            </Pressable>
-                        </ModalTrigger>
+            <View className="flex-none flex-row items-center justify-start gap-4 flex-shrink-0">
+                <Link href={`/(modals)/editFuelPrice/${id}`} asChild>
+                    <Pressable>
+                        <FontAwesome
+                            size={24}
+                            name="edit"
+                            color={twColors.slate["300"]}
+                        />
+                    </Pressable>
+                </Link>
 
-                        {isDefault ? (
-                            <FontAwesome
-                                size={24}
-                                name="star"
-                                color={twColors.yellow["400"]}
-                            />
-                        ) : (
-                            <TouchableOpacity
-                                onPress={() => handleSetDefault()}
-                            >
-                                <FontAwesome
-                                    size={24}
-                                    name="star-o"
-                                    color={twColors.yellow["400"]}
-                                />
-                            </TouchableOpacity>
-                        )}
+                {isDefault ? (
+                    <FontAwesome
+                        size={24}
+                        name="star"
+                        color={twColors.yellow["400"]}
+                    />
+                ) : (
+                    <TouchableOpacity onPress={() => handleSetDefault()}>
+                        <FontAwesome
+                            size={24}
+                            name="star-o"
+                            color={twColors.yellow["400"]}
+                        />
+                    </TouchableOpacity>
+                )}
 
-                        <TouchableOpacity onPress={() => handleDelete()}>
-                            <FontAwesome
-                                size={24}
-                                name="trash"
-                                color={twColors.red["600"]}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-                <ModalContent>
-                    <ScrollView
-                        contentContainerStyle={{
-                            paddingHorizontal: 24,
-                            paddingBottom: 24,
-                        }}
-                    >
-                        <FuelPricesForm fuelPrice={{ id, name, price }} />
-                    </ScrollView>
-                </ModalContent>
-            </Modal>
-        </>
+                <TouchableOpacity onPress={() => handleDelete()}>
+                    <FontAwesome
+                        size={24}
+                        name="trash"
+                        color={twColors.red["600"]}
+                    />
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
