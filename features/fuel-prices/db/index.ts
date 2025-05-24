@@ -9,6 +9,17 @@ export async function getAllFuelPrices(SQLite: SQLiteDatabase) {
 
     return db.select().from(fuelPricesTable);
 }
+export async function getFuelPrice(
+    SQLite: SQLiteDatabase,
+    id: number | string,
+) {
+    const db = drizzle(SQLite, { schema });
+
+    return db
+        .select()
+        .from(fuelPricesTable)
+        .where(eq(fuelPricesTable.id, Number(id)));
+}
 
 export async function getDefaultFuelPrice(SQLite: SQLiteDatabase) {
     const db = drizzle(SQLite, { schema });

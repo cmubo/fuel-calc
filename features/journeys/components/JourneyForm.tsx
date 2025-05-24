@@ -42,7 +42,7 @@ export default function JourneyForm({
     });
 
     return (
-        <View className="w-full flex flex-col gap-4">
+        <View className="flex-1 gap-4">
             <FormProvider {...form}>
                 <InputWrapper label="Miles Per Gallon" errors={errors.mpg}>
                     <TextInput
