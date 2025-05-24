@@ -10,10 +10,11 @@ import {
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
     FlatList,
     Pressable,
+    RefreshControl,
     ScrollView,
     Text,
     TouchableOpacity,
@@ -23,6 +24,20 @@ import FuelPricesForm from "./FuelPricesForm";
 
 export default function FuelPricesList() {
     const sqliteContext = useSQLiteContext();
+    const [refreshing, setRefreshing] = useState(false);
+    const queryClient = useQueryClient();
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+
+        setTimeout(() => {
+            setRefreshing(false);
+
+            queryClient.invalidateQueries({
+                queryKey: ["fuelPrices"],
+            });
+        }, 1000);
+    }, []);
 
     const {
         data: fuelPrices,
@@ -49,6 +64,13 @@ export default function FuelPricesList() {
                     <Text>No fuel prices saved</Text>
                 </View>
             }
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    tintColor={twColors.blue["500"]}
+                />
+            }
         />
     );
 }
@@ -62,6 +84,7 @@ function FuelPriceItem({
     const queryClient = useQueryClient();
     const sqliteContext = useSQLiteContext();
     const [modalVisible, setModalVisible] = useState(false);
+
     const priceMemoised = useMemo(() => {
         return price.toFixed(2);
     }, [price]);

@@ -12,7 +12,7 @@ export default function InputWrapper({
     errorMessage?: string;
 }) {
     return (
-        <View className="flex gap-2">
+        <View className="flex-1 gap-2">
             <Text className="text-white text-lg">{label}</Text>
 
             {children}
