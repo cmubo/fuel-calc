@@ -1,20 +1,13 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
+import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
 import { getDefaultFuelPrice } from "@/features/fuel-prices/db";
 import JourneyForm from "@/features/journeys/components/JourneyForm";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { SafeAreaView, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default function CalculatorScreenWrapper() {
-    return (
-        <SafeAreaView className="bg-slate-950">
-            <CalculatorScreen />
-        </SafeAreaView>
-    );
-}
-
-function CalculatorScreen() {
+export default function CalculatorScreen() {
     const sqliteContext = useSQLiteContext();
     const insets = useSafeAreaInsets();
 
@@ -33,11 +26,10 @@ function CalculatorScreen() {
 
     return (
         <ScrollView
-            contentContainerClassName="px-4"
+            contentContainerClassName="px-6 bg-slate-950"
             contentContainerStyle={{
-                minHeight: "100%",
-                paddingBottom: insets.bottom + 80,
-                paddingTop: insets.top + 24,
+                paddingBottom: insets.bottom + GLOBAL_BOTTOM_PADDING,
+                paddingTop: insets.top + GLOBAL_TOP_PADDING,
             }}
             showsVerticalScrollIndicator={false}
         >

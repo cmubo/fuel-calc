@@ -1,15 +1,18 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
+import { MODAL_BOTTOM_PADDING, MODAL_TOP_PADDING } from "@/constants/layout";
 import JourneyForm from "@/features/journeys/components/JourneyForm";
 import { getJourney } from "@/features/journeys/db";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function editJourneyFormModal() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
     const sqliteContext = useSQLiteContext();
+    const insets = useSafeAreaInsets();
 
     const {
         data: journey,
@@ -25,7 +28,14 @@ export default function editJourneyFormModal() {
     }
 
     return (
-        <View className="flex-1 h-full p-4">
+        <ScrollView
+            contentContainerClassName="px-6 bg-slate-900"
+            contentContainerStyle={{
+                paddingBottom: insets.bottom + MODAL_BOTTOM_PADDING,
+                paddingTop: insets.top + MODAL_TOP_PADDING,
+            }}
+            showsVerticalScrollIndicator={false}
+        >
             <JourneyForm
                 journey={{
                     ...journey[0],
@@ -34,6 +44,6 @@ export default function editJourneyFormModal() {
                     router.back();
                 }}
             />
-        </View>
+        </ScrollView>
     );
 }

@@ -1,6 +1,7 @@
 import { Modal, ModalContent, ModalTrigger } from "@/components/Modal";
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { twColors } from "@/constants/Colors";
+import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
 import { fuelPricesTable } from "@/db/schema";
 import {
     deleteFuelPrice,
@@ -20,12 +21,14 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FuelPricesForm from "./FuelPricesForm";
 
 export default function FuelPricesList() {
     const sqliteContext = useSQLiteContext();
     const [refreshing, setRefreshing] = useState(false);
     const queryClient = useQueryClient();
+    const insets = useSafeAreaInsets();
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -54,14 +57,19 @@ export default function FuelPricesList() {
 
     return (
         <FlatList
-            className="w-full"
-            contentContainerClassName="gap-4"
+            contentContainerClassName="gap-4 px-4"
+            contentContainerStyle={{
+                paddingBottom: insets.bottom + GLOBAL_BOTTOM_PADDING,
+                paddingTop: insets.top + GLOBAL_TOP_PADDING,
+            }}
             data={fuelPrices}
             renderItem={({ item }) => <FuelPriceItem {...item} />}
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={
                 <View>
-                    <Text>No fuel prices saved</Text>
+                    <Text className="text-white text-center text-lg">
+                        No fuel prices saved
+                    </Text>
                 </View>
             }
             refreshControl={

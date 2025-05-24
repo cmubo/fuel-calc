@@ -1,9 +1,9 @@
+import { twColors } from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 
-import { useColorScheme } from "@/components/useColorScheme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -34,13 +34,15 @@ function TabIcon({ focused, icon, title }: TabIconProps) {
 }
 
 export default function TabLayout() {
-    const colorScheme = useColorScheme();
     const insets = useSafeAreaInsets();
 
     return (
         <Tabs
             screenOptions={{
                 headerShown: false,
+                sceneStyle: {
+                    backgroundColor: twColors.slate[950],
+                },
                 tabBarItemStyle: {
                     width: "100%",
                     height: "100%",
@@ -51,7 +53,7 @@ export default function TabLayout() {
                     backgroundColor: "#0f0d23",
                     borderRadius: 50,
                     marginHorizontal: 20,
-                    marginBottom: insets.bottom,
+                    marginBottom: insets.bottom + 10,
                     paddingBottom: 0,
                     height: 52,
                     position: "absolute",

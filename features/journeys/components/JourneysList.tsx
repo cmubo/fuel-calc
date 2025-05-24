@@ -1,5 +1,6 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { twColors } from "@/constants/Colors";
+import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
 import { journeysTable } from "@/db/schema";
 import { deleteJourney, getAllJourneys } from "@/features/journeys/db";
 import { DecimalPrecision2 } from "@/helpers/math";
@@ -16,11 +17,13 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function JourneysList() {
     const sqliteContext = useSQLiteContext();
     const [refreshing, setRefreshing] = useState(false);
     const queryClient = useQueryClient();
+    const insets = useSafeAreaInsets();
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -49,8 +52,11 @@ export default function JourneysList() {
 
     return (
         <FlatList
-            className="w-full"
-            contentContainerClassName="gap-4"
+            contentContainerClassName="gap-4 w-full px-6 bg-slate-950"
+            contentContainerStyle={{
+                paddingBottom: insets.bottom + GLOBAL_BOTTOM_PADDING,
+                paddingTop: insets.top + GLOBAL_TOP_PADDING,
+            }}
             data={journeys}
             renderItem={({ item }) => <JourneyItem {...item} />}
             keyExtractor={(item) => item.id.toString()}

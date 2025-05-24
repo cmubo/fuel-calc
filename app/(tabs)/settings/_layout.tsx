@@ -1,8 +1,16 @@
+import { twColors } from "@/constants/Colors";
 import { Stack } from "expo-router";
 
 export default function SettingsRootLayout() {
     return (
-        <Stack>
+        <Stack
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: twColors.slate[950],
+                },
+                headerTintColor: twColors.white,
+            }}
+        >
             <Stack.Screen
                 name="index"
                 options={{ headerShown: false, title: "Settings" }}
