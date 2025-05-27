@@ -1,6 +1,5 @@
 import DBProvider from "@/components/providers/DBProvider";
 import { useColorScheme } from "@/components/useColorScheme";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import {
     DarkTheme,
     DefaultTheme,
@@ -16,15 +15,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     return (
         <DBProvider>
             <QueryClientProvider client={queryClient}>
-                <BottomSheetModalProvider>
-                    <ThemeProvider
-                        value={
-                            colorScheme === "dark" ? DarkTheme : DefaultTheme
-                        }
-                    >
-                        {children}
-                    </ThemeProvider>
-                </BottomSheetModalProvider>
+                <ThemeProvider
+                    value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                >
+                    {children}
+                </ThemeProvider>
             </QueryClientProvider>
         </DBProvider>
     );

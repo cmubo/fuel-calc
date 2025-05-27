@@ -8,7 +8,6 @@ import "./global.css";
 
 import Providers from "@/components/providers/Providers";
 import { StatusBar } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -49,20 +48,15 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
     return (
-        <GestureHandlerRootView>
-            <Providers>
-                <StatusBar hidden={true} />
-                <Stack>
-                    <Stack.Screen
-                        name="(tabs)"
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="(modals)"
-                        options={{ presentation: "modal", headerShown: false }}
-                    />
-                </Stack>
-            </Providers>
-        </GestureHandlerRootView>
+        <Providers>
+            <StatusBar hidden={true} />
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="(modals)"
+                    options={{ presentation: "modal", headerShown: false }}
+                />
+            </Stack>
+        </Providers>
     );
 }

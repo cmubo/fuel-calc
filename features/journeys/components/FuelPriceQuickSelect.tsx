@@ -1,10 +1,11 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { getAllFuelPrices } from "@/features/fuel-prices/db";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { BottomSheetFlatList, useBottomSheetModal } from "@gorhom/bottom-sheet";
+import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { Text, TouchableOpacity, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function FuelPriceQuickSelect({
     onFuelPriceSelect,
@@ -28,7 +29,7 @@ export default function FuelPriceQuickSelect({
     }
 
     return (
-        <BottomSheetFlatList
+        <FlatList
             className="w-full"
             contentContainerClassName="gap-4 px-4 pb-4"
             data={fuelPrices}
@@ -41,9 +42,14 @@ export default function FuelPriceQuickSelect({
                     }}
                 >
                     <View className="flex-row justify-between items-center gap-4">
-                        <Text className="text-white text-center font-bold text-lg ">
-                            {String(item.price)}
-                        </Text>
+                        <View>
+                            <Text className="text-white text-center">
+                                {String(item.name)}
+                            </Text>
+                            <Text className="text-white text-center font-bold text-lg ">
+                                {String(item.price)}
+                            </Text>
+                        </View>
                         <FontAwesome
                             name="chevron-right"
                             size={16}

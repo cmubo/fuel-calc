@@ -32,7 +32,13 @@ export default function SelectFuelPriceModal({
                 />
             </TouchableOpacity>
 
-            <BottomSheetModal ref={bottomSheetModalRef}>
+            <BottomSheetModal
+                ref={bottomSheetModalRef}
+                backgroundStyle={{ backgroundColor: twColors.slate[800] }}
+                enableDynamicSizing={false}
+                snapPoints={["60%"]}
+                handleIndicatorStyle={{ backgroundColor: "#fff" }}
+            >
                 <BottomSheetView>
                     <FuelPriceQuickSelect
                         onFuelPriceSelect={onFuelPriceSelect}
