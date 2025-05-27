@@ -33,7 +33,7 @@ export function Modal({
         <modalContext.Provider
             value={{
                 open: open === undefined ? modalVisible : open,
-                setOpen: setOpen ? setOpen : setModalVisible,
+                setOpen: setOpen === undefined ? setModalVisible : setOpen,
             }}
         >
             {children}
@@ -47,7 +47,7 @@ interface ModalTriggerProps extends PressableProps {
     asChild?: boolean;
 }
 export function ModalTrigger({ asChild, ...props }: ModalTriggerProps) {
-    const { open, setOpen } = useContext(modalContext);
+    const { setOpen } = useContext(modalContext);
 
     const handlePress = () => setOpen((prev) => !prev);
 

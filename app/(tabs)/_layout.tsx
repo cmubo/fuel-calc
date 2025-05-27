@@ -1,3 +1,4 @@
+import { twColors } from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
 import React from "react";
@@ -22,10 +23,10 @@ interface TabIconProps {
 function TabIcon({ focused, icon, title }: TabIconProps) {
     return (
         <View
-            className={`flex flex-col w-full  min-w-[112px] min-h-[52px] justify-center items-center rounded-full overflow-hidden mt-4 ${focused ? "bg-blue-500" : ""}`}
+            className={`flex flex-col w-full  min-w-[112px] min-h-[52px] justify-center items-center rounded-full overflow-hidden mt-4 ${focused ? "bg-cyan-600" : ""}`}
         >
             {icon}
-            <Text className="text-white text-base font-semibold ml-2">
+            <Text className="text-cyan-100 text-base font-semibold ml-2">
                 {title}
             </Text>
         </View>
@@ -39,6 +40,9 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 headerShown: false,
+                sceneStyle: {
+                    backgroundColor: twColors.slate[950],
+                },
                 tabBarItemStyle: {
                     width: "100%",
                     height: "100%",
@@ -46,20 +50,20 @@ export default function TabLayout() {
                     alignItems: "center",
                 },
                 tabBarStyle: {
-                    backgroundColor: "#0f0d23",
+                    backgroundColor: twColors.cyan[950],
                     borderRadius: 50,
                     marginHorizontal: 20,
-                    marginBottom: insets.bottom,
+                    marginBottom: insets.bottom + 10,
                     paddingBottom: 0,
                     height: 52,
                     position: "absolute",
                     overflow: "hidden",
                     borderWidth: 1,
-                    borderColor: "#0f0d23",
+                    borderColor: twColors.cyan[950],
                     bottom: 0,
                 },
                 tabBarShowLabel: false,
-                tabBarActiveTintColor: "white",
+                tabBarActiveTintColor: twColors.cyan[50],
             }}
         >
             <Tabs.Screen

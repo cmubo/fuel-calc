@@ -10,6 +10,15 @@ export async function getAllJourneys(SQLite: SQLiteDatabase) {
     return db.select().from(journeysTable);
 }
 
+export async function getJourney(SQLite: SQLiteDatabase, id: number | string) {
+    const db = drizzle(SQLite, { schema });
+
+    return db
+        .select()
+        .from(journeysTable)
+        .where(eq(journeysTable.id, Number(id)));
+}
+
 export async function insertJourney(
     SQLite: SQLiteDatabase,
     data: typeof journeysTable.$inferInsert,
