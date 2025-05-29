@@ -11,9 +11,7 @@ export default function TabBar({ state, descriptors, navigation }: any) {
 
     return (
         <View style={styles.wrapper}>
-            <View
-                style={[styles.container, { marginBottom: insets.bottom + 10 }]}
-            >
+            <View style={[styles.container, { marginBottom: insets.bottom }]}>
                 {/* TODO: types here */}
                 {state.routes.map((route: any, index: number) => (
                     <TabBarButton
@@ -75,7 +73,7 @@ function TabBarButton({
             testID={options.tabBarButtonTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1 }}
+            style={styles.button}
             key={route.name}
         >
             {icon && icon({ focused: isFocused, color: color })}
@@ -85,18 +83,13 @@ function TabBarButton({
 
 const styles = StyleSheet.create({
     wrapper: {
-        position: "absolute",
-        overflow: "hidden",
-        bottom: 0,
-        width: "100%",
-        left: 0,
+        backgroundColor: twColors.slate[800],
     },
     container: {
         flexDirection: "row",
-        backgroundColor: twColors.slate[900],
-        borderRadius: 10,
-        marginHorizontal: 20,
         height: 52,
-        borderWidth: 0,
+    },
+    button: {
+        flex: 1,
     },
 });

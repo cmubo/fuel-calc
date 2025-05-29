@@ -1,9 +1,11 @@
-import Animated from "react-native-reanimated";
-import { useAnimatedStyle } from "react-native-reanimated";
+import { twColors } from "@/constants/Colors";
 import { useEffect } from "react";
-import { useSharedValue } from "react-native-reanimated";
-import { withTiming } from "react-native-reanimated";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withTiming,
+} from "react-native-reanimated";
 
 interface TabIconProps {
     focused: boolean;
@@ -40,20 +42,29 @@ export default function TabIcon({ focused, icon, title }: TabIconProps) {
     });
 
     return (
-        <View
-            className={`flex flex-col w-full  min-w-[112px] justify-center items-center overflow-hidden ${focused ? "bg-cyan-600" : ""}`}
-            style={{
-                borderRadius: 10,
-                height: "100%",
-            }}
-        >
+        <View style={styles.container}>
             <Animated.View style={[animatedStyleIcon]}>{icon}</Animated.View>
 
             <Animated.View style={[animatedStyleText]}>
-                <Text className="text-cyan-100 text-sm font-semibold">
+                <Text className="text-sm" style={styles.label}>
                     {title}
                 </Text>
             </Animated.View>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+    },
+    label: {
+        color: twColors.cyan[100],
+        fontWeight: 600,
+    },
+});
