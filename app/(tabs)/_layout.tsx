@@ -1,73 +1,38 @@
-import { twColors } from "@/constants/Colors";
+import TabBar from "@/components/TabBar";
+import TabIcon from "@/components/TabIcon";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs } from "expo-router";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { Text, View } from "react-native";
-
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import CalculatorScreen from ".";
+import JourneysScreen from "./journeys";
+import SettingsScreen from "./settings";
+
+const Tab = createBottomTabNavigator();
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>["name"];
     color: string;
 }) {
-    return <FontAwesome size={20} {...props} />;
-}
-
-interface TabIconProps {
-    focused: boolean;
-    icon: React.ReactElement;
-    title: string;
-}
-
-function TabIcon({ focused, icon, title }: TabIconProps) {
-    return (
-        <View
-            className={`flex flex-col w-full  min-w-[112px] min-h-[52px] justify-center items-center rounded-full overflow-hidden mt-4 ${focused ? "bg-cyan-600" : ""}`}
-        >
-            {icon}
-            <Text className="text-cyan-100 text-base font-semibold ml-2">
-                {title}
-            </Text>
-        </View>
-    );
+    return <FontAwesome size={28} {...props} />;
 }
 
 export default function TabLayout() {
     const insets = useSafeAreaInsets();
 
     return (
-        <Tabs
+        <Tab.Navigator
+            tabBar={(props) => <TabBar {...props} />}
             screenOptions={{
                 headerShown: false,
-                sceneStyle: {
-                    backgroundColor: twColors.slate[950],
-                },
-                tabBarItemStyle: {
-                    width: "100%",
-                    height: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                },
-                tabBarStyle: {
-                    backgroundColor: twColors.cyan[950],
-                    borderRadius: 50,
-                    marginHorizontal: 20,
-                    marginBottom: insets.bottom + 10,
-                    paddingBottom: 0,
-                    height: 52,
-                    position: "absolute",
-                    overflow: "hidden",
-                    borderWidth: 1,
-                    borderColor: twColors.cyan[950],
-                    bottom: 0,
-                },
-                tabBarShowLabel: false,
-                tabBarActiveTintColor: twColors.cyan[50],
+                tabBarActiveTintColor: "white",
+                tabBarInactiveTintColor: "gray",
             }}
         >
-            <Tabs.Screen
+            <Tab.Screen
                 name="index"
+                component={CalculatorScreen}
                 options={{
                     title: "Calculator",
                     tabBarIcon: ({ focused, color }) => (
@@ -79,8 +44,9 @@ export default function TabLayout() {
                     ),
                 }}
             />
-            <Tabs.Screen
+            <Tab.Screen
                 name="journeys"
+                component={JourneysScreen}
                 options={{
                     title: "Journeys",
                     tabBarIcon: ({ focused, color }) => (
@@ -92,8 +58,10 @@ export default function TabLayout() {
                     ),
                 }}
             />
-            <Tabs.Screen
+
+            <Tab.Screen
                 name="settings"
+                component={SettingsScreen}
                 options={{
                     title: "Settings",
                     tabBarIcon: ({ focused, color }) => (
@@ -105,6 +73,6 @@ export default function TabLayout() {
                     ),
                 }}
             />
-        </Tabs>
+        </Tab.Navigator>
     );
 }
