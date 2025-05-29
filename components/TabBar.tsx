@@ -1,19 +1,22 @@
 import { twColors } from "@/constants/Colors";
+import { type BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { PlatformPressable } from "@react-navigation/elements";
 import { useLinkBuilder } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-// TODO: types here
-export default function TabBar({ state, descriptors, navigation }: any) {
+export default function TabBar({
+    state,
+    descriptors,
+    navigation,
+}: BottomTabBarProps) {
     const insets = useSafeAreaInsets();
     const { buildHref } = useLinkBuilder();
 
     return (
         <View style={styles.wrapper}>
             <View style={[styles.container, { marginBottom: insets.bottom }]}>
-                {/* TODO: types here */}
-                {state.routes.map((route: any, index: number) => (
+                {state.routes.map((route, index) => (
                     <TabBarButton
                         route={route}
                         index={index}
