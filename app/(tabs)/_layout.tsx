@@ -3,11 +3,9 @@ import TabIcon from "@/components/TabIcon";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Tabs } from "expo-router";
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import CalculatorScreen from ".";
-import JourneysScreen from "./journeys";
-import SettingsScreen from "./settings";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +21,7 @@ export default function TabLayout() {
     return (
         <GestureHandlerRootView>
             <BottomSheetModalProvider>
-                <Tab.Navigator
+                <Tabs
                     tabBar={(props) => <TabBar {...props} />}
                     screenOptions={{
                         headerShown: false,
@@ -31,9 +29,8 @@ export default function TabLayout() {
                         tabBarInactiveTintColor: "gray",
                     }}
                 >
-                    <Tab.Screen
+                    <Tabs.Screen
                         name="index"
-                        component={CalculatorScreen}
                         options={{
                             title: "Calculator",
                             tabBarIcon: ({ focused, color }) => (
@@ -47,9 +44,8 @@ export default function TabLayout() {
                             ),
                         }}
                     />
-                    <Tab.Screen
+                    <Tabs.Screen
                         name="journeys"
-                        component={JourneysScreen}
                         options={{
                             title: "Journeys",
                             tabBarIcon: ({ focused, color }) => (
@@ -64,9 +60,8 @@ export default function TabLayout() {
                         }}
                     />
 
-                    <Tab.Screen
+                    <Tabs.Screen
                         name="settings"
-                        component={SettingsScreen}
                         options={{
                             title: "Settings",
                             tabBarIcon: ({ focused, color }) => (
@@ -80,7 +75,7 @@ export default function TabLayout() {
                             ),
                         }}
                     />
-                </Tab.Navigator>
+                </Tabs>
             </BottomSheetModalProvider>
         </GestureHandlerRootView>
     );
