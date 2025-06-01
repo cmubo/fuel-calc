@@ -1,11 +1,11 @@
-import { modalContext } from "@/components/Modal";
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
 import { getAllFuelPrices } from "@/features/fuel-prices/db";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { useContext } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function FuelPriceQuickSelect({
     onFuelPriceSelect,
@@ -13,7 +13,7 @@ export default function FuelPriceQuickSelect({
     onFuelPriceSelect: (price: number) => void;
 }) {
     const sqliteContext = useSQLiteContext();
-    const { setOpen } = useContext(modalContext);
+    const { dismiss } = useBottomSheetModal();
 
     const {
         data: fuelPrices,
@@ -38,13 +38,18 @@ export default function FuelPriceQuickSelect({
                     className="bg-cyan-500 rounded-lg p-3 px-8"
                     onPress={() => {
                         onFuelPriceSelect(item.price);
-                        setOpen(false);
+                        dismiss();
                     }}
                 >
                     <View className="flex-row justify-between items-center gap-4">
-                        <Text className="text-white text-center font-bold text-lg ">
-                            {String(item.price)}
-                        </Text>
+                        <View>
+                            <Text className="text-white text-center">
+                                {String(item.name)}
+                            </Text>
+                            <Text className="text-white text-center font-bold text-lg ">
+                                {String(item.price)}
+                            </Text>
+                        </View>
                         <FontAwesome
                             name="chevron-right"
                             size={16}
