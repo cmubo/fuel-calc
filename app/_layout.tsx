@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import "./global.css";
 
 import Providers from "@/components/providers/Providers";
+import { twColors } from "@/constants/Colors";
 import { StatusBar } from "react-native";
 
 export {
@@ -50,7 +51,11 @@ function RootLayoutNav() {
     return (
         <Providers>
             <StatusBar hidden={true} />
-            <Stack>
+            <Stack
+                screenOptions={{
+                    contentStyle: { backgroundColor: twColors.slate[950] },
+                }}
+            >
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen
                     name="(modals)"
