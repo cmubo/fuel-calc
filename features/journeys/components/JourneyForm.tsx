@@ -1,5 +1,8 @@
+import ConfirmationButton from "@/components/ConfirmationButton";
+import HeroIcon from "@/components/icons/HeroIcon";
 import InputWrapper from "@/components/InputWrapper";
 import TextInput from "@/components/TextInput";
+import { twColors } from "@/constants/Colors";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
 import { FormProvider } from "react-hook-form";
@@ -114,19 +117,28 @@ export default function JourneyForm({
                     </View>
                 </View>
 
-                <TouchableOpacity
-                    onPress={handleSubmit(onSubmit)}
-                    className="bg-cyan-500 rounded-lg p-3"
-                >
-                    <Text className="text-white text-center">Save Journey</Text>
-                </TouchableOpacity>
+                <View className="flex-1 items-center justify-center flex-row gap-2">
+                    <TouchableOpacity
+                        onPress={handleSubmit(onSubmit)}
+                        className="bg-cyan-500 rounded-lg p-3 w-full flex-1"
+                    >
+                        <Text
+                            className="text-white text-center text-lg"
+                            style={{ lineHeight: 20 }}
+                        >
+                            Save Journey
+                        </Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={() => reset()}
-                    className="bg-red-500 rounded-lg p-3 mt-2"
-                >
-                    <Text className="text-white text-center">Reset Form</Text>
-                </TouchableOpacity>
+                    <ConfirmationButton
+                        className="bg-red-500 rounded-lg p-3"
+                        action={reset}
+                        title="Reset form inputs"
+                        subtitle="Are you sure you want to reset all form inputs?"
+                    >
+                        <HeroIcon icon="arrow-path" color={twColors.white} />
+                    </ConfirmationButton>
+                </View>
             </FormProvider>
         </View>
     );
