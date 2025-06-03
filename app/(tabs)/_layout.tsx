@@ -1,7 +1,8 @@
+import HeroIcon from "@/components/icons/HeroIcon";
 import TabBar from "@/components/TabBar";
 import TabIcon from "@/components/TabIcon";
 import { twColors } from "@/constants/Colors";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { HeroIconPathType } from "@/constants/HeroIcons";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
@@ -11,11 +12,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 const Tab = createBottomTabNavigator();
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>["name"];
-    color: string;
-}) {
-    return <FontAwesome size={28} {...props} />;
+function TabBarIcon(props: { icon: HeroIconPathType; color: string }) {
+    return <HeroIcon size={28} {...props} />;
 }
 
 export default function TabLayout() {
@@ -49,7 +47,10 @@ export default function TabLayout() {
                                     focused={focused}
                                     title="Calculator"
                                     icon={
-                                        <TabBarIcon name="home" color={color} />
+                                        <TabBarIcon
+                                            icon="calculator"
+                                            color={color}
+                                        />
                                     }
                                 />
                             ),
@@ -64,7 +65,10 @@ export default function TabLayout() {
                                     focused={focused}
                                     title="Journeys"
                                     icon={
-                                        <TabBarIcon name="road" color={color} />
+                                        <TabBarIcon
+                                            icon="archive-box"
+                                            color={color}
+                                        />
                                     }
                                 />
                             ),
@@ -80,7 +84,10 @@ export default function TabLayout() {
                                     focused={focused}
                                     title="Settings"
                                     icon={
-                                        <TabBarIcon name="cog" color={color} />
+                                        <TabBarIcon
+                                            icon="adjustments-horizontal"
+                                            color={color}
+                                        />
                                     }
                                 />
                             ),
