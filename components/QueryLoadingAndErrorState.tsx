@@ -1,4 +1,5 @@
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
+import { GroteskTextMedium } from "./StyledText";
 
 export default function QueryLoadingAndErrorState({
     isPending,
@@ -23,7 +24,7 @@ export default function QueryLoadingAndErrorState({
     if (isError) {
         return (
             <View className="flex items-center justify-center w-full h-full flex-col">
-                <Text>There was an error</Text>
+                <GroteskTextMedium>There was an error</GroteskTextMedium>
             </View>
         );
     }

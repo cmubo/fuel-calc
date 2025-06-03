@@ -26,6 +26,11 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
     const [loaded, error] = useFonts({
         SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+        SpaceGrotesk: require("../assets/fonts/SpaceGrotesk-Regular.ttf"),
+        "SpaceGrotesk-Bold": require("../assets/fonts/SpaceGrotesk-Bold.ttf"),
+        "SpaceGrotesk-Light": require("../assets/fonts/SpaceGrotesk-Light.ttf"),
+        "SpaceGrotesk-Medium": require("../assets/fonts/SpaceGrotesk-Medium.ttf"),
+        "SpaceGrotesk-SemiBold": require("../assets/fonts/SpaceGrotesk-SemiBold.ttf"),
         ...FontAwesome.font,
     });
 

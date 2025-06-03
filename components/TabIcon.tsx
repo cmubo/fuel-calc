@@ -1,11 +1,12 @@
 import { twColors } from "@/constants/Colors";
 import { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
+import { GroteskTextMedium } from "./StyledText";
 
 interface TabIconProps {
     focused: boolean;
@@ -46,9 +47,9 @@ export default function TabIcon({ focused, icon, title }: TabIconProps) {
             <Animated.View style={[animatedStyleIcon]}>{icon}</Animated.View>
 
             <Animated.View style={[animatedStyleText]}>
-                <Text className="text-sm" style={styles.label}>
+                <GroteskTextMedium className="text-sm" style={styles.label}>
                     {title}
-                </Text>
+                </GroteskTextMedium>
             </Animated.View>
         </View>
     );

@@ -1,4 +1,8 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
+import {
+    GroteskTextMedium,
+    GroteskTextSemiBold,
+} from "@/components/StyledText";
 import { twColors } from "@/constants/Colors";
 import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
 import { journeysTable } from "@/db/schema";
@@ -13,7 +17,6 @@ import {
     FlatList,
     Pressable,
     RefreshControl,
-    Text,
     TouchableOpacity,
     View,
 } from "react-native";
@@ -62,14 +65,13 @@ export default function JourneysList() {
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={
                 <View className="items-center py-8">
-                    <Text className="text-center text-white font-medium text-2xl">
+                    <GroteskTextSemiBold className="text-center text-white text-2xl">
                         No journeys saved
-                    </Text>
-                    <Link
-                        href="/(tabs)"
-                        className="text-blue-500 font-medium text-lg mt-8"
-                    >
-                        Create new journey
+                    </GroteskTextSemiBold>
+                    <Link href="/(tabs)" className="mt-8">
+                        <GroteskTextSemiBold className="text-blue-500 font-medium text-lg">
+                            Create new journey
+                        </GroteskTextSemiBold>
                     </Link>
                 </View>
             }
@@ -108,21 +110,25 @@ function JourneyItem({
     return (
         <View className="flex-1 flex-row gap-4 rounded-lg shadow bg-slate-900 p-4 w-full items-start justify-start">
             <View className="flex-1 flex-col gap-2 flex-grow w-full">
-                <Text className="text-white font-bold text-2xl">£{price}</Text>
+                <GroteskTextMedium className="text-white font-bold text-2xl">
+                    £{price}
+                </GroteskTextMedium>
                 {splitBetween > 1 ? (
-                    <Text className="text-slate-400">
+                    <GroteskTextMedium className="text-slate-400">
                         Split between {splitBetween} people, cost: £
                         {DecimalPrecision2.round(price / splitBetween, 2)}
-                    </Text>
+                    </GroteskTextMedium>
                 ) : null}
 
-                <Text className="text-slate-400">
+                <GroteskTextMedium className="text-slate-400">
                     Distance: {distanceInMiles} miles
-                </Text>
-                <Text className="text-slate-400">MPG: {mpg}</Text>
-                <Text className="text-slate-400">
+                </GroteskTextMedium>
+                <GroteskTextMedium className="text-slate-400">
+                    MPG: {mpg}
+                </GroteskTextMedium>
+                <GroteskTextMedium className="text-slate-400">
                     Price per litre: {pricePerLitre}p
-                </Text>
+                </GroteskTextMedium>
             </View>
 
             <View className="flex-none flex-row items-center justify-start gap-4 flex-shrink-0">

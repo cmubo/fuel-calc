@@ -1,11 +1,11 @@
 import { useState } from "react";
-import {
-    Text,
-    TouchableOpacity,
-    TouchableOpacityProps,
-    View,
-} from "react-native";
+import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import { Modal, ModalContent, ModalTrigger } from "./Modal";
+import {
+    GroteskTextBold,
+    GroteskTextMedium,
+    GroteskTextSemiBold,
+} from "./StyledText";
 
 interface ConfirmationButtonProps
     extends Omit<TouchableOpacityProps, "onPress"> {
@@ -36,23 +36,27 @@ export default function ConfirmationButton({
             <ModalContent>
                 <View className="gap-8 p-4">
                     <View>
-                        <Text className="text-2xl font-bold text-white">
+                        <GroteskTextBold className="text-2xl text-white">
                             {title || "Are you sure?"}
-                        </Text>
-                        <Text className="font-medium text-lg text-white">
+                        </GroteskTextBold>
+                        <GroteskTextSemiBold className="font-medium text-lg text-white">
                             {subtitle || "This action cannot be undone"}
-                        </Text>
+                        </GroteskTextSemiBold>
                     </View>
                     <View className="flex items-center justify-center gap-4 flex-row">
                         <TouchableOpacity
                             onPress={performAction}
                             className="bg-cyan-500 rounded-lg p-3 flex-1"
                         >
-                            <Text className="text-center">Yes</Text>
+                            <GroteskTextMedium className="text-center">
+                                Yes
+                            </GroteskTextMedium>
                         </TouchableOpacity>
                         <ModalTrigger asChild>
                             <TouchableOpacity className="bg-red-500 rounded-lg p-3 flex-1">
-                                <Text className="text-center">No</Text>
+                                <GroteskTextMedium className="text-center">
+                                    No
+                                </GroteskTextMedium>
                             </TouchableOpacity>
                         </ModalTrigger>
                     </View>

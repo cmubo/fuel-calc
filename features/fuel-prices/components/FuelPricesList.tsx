@@ -1,4 +1,5 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
+import { GroteskTextBold, GroteskTextMedium } from "@/components/StyledText";
 import { twColors } from "@/constants/Colors";
 import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
 import { fuelPricesTable } from "@/db/schema";
@@ -16,7 +17,6 @@ import {
     FlatList,
     Pressable,
     RefreshControl,
-    Text,
     TouchableOpacity,
     View,
 } from "react-native";
@@ -65,9 +65,9 @@ export default function FuelPricesList() {
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={
                 <View>
-                    <Text className="text-white text-center text-lg">
+                    <GroteskTextMedium className="text-white text-center text-lg">
                         No fuel prices saved
-                    </Text>
+                    </GroteskTextMedium>
                 </View>
             }
             refreshControl={
@@ -115,10 +115,12 @@ function FuelPriceItem({
     return (
         <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-900 p-4 w-full items-start justify-start">
             <View className="flex-1 flex-col gap-2 flex-grow w-full">
-                <Text className="text-slate-200">{name}</Text>
-                <Text className="text-white font-bold text-2xl">
+                <GroteskTextMedium className="text-slate-200">
+                    {name}
+                </GroteskTextMedium>
+                <GroteskTextBold className="text-white text-2xl">
                     {priceMemoised}
-                </Text>
+                </GroteskTextBold>
             </View>
 
             <View className="flex-none flex-row items-center justify-start gap-4 flex-shrink-0">

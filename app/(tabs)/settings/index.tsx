@@ -1,6 +1,7 @@
+import { GroteskTextBold, GroteskTextMedium } from "@/components/StyledText";
 import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
 import { Link } from "expo-router";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function SettingsScreen() {
@@ -11,7 +12,9 @@ export default function SettingsScreen() {
             className="bg-slate-950 w-full flex-1 px-6"
             style={{ paddingTop: insets.top + GLOBAL_TOP_PADDING }}
         >
-            <Text className="text-white text-2xl font-bold pb-8">Settings</Text>
+            <GroteskTextBold className="text-white text-2xl pb-8">
+                Settings
+            </GroteskTextBold>
 
             <ScrollView
                 contentContainerClassName="gap-4"
@@ -21,9 +24,9 @@ export default function SettingsScreen() {
             >
                 <Link href="/settings/fuel-prices" asChild>
                     <TouchableOpacity className="w-full bg-slate-900 rounded-lg shadow p-4">
-                        <Text className="text-left text-white text-lg font-bold">
+                        <GroteskTextMedium className="text-left text-white text-lg">
                             Fuel Prices
-                        </Text>
+                        </GroteskTextMedium>
                     </TouchableOpacity>
                 </Link>
             </ScrollView>
