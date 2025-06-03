@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 export default function FuelPricesPage() {
     return (
-        <View className="flex-1 bg-slate-950 relative">
+        <View className="flex-1 bg-slate-950 shadow-md relative">
             <FuelPricesList />
             <FuelPricesFloatingButton />
         </View>

@@ -58,7 +58,7 @@ function RootLayoutNav() {
             <StatusBar hidden={true} />
             <Stack
                 screenOptions={{
-                    contentStyle: { backgroundColor: twColors.slate[950] },
+                    contentStyle: { backgroundColor: twColors.slate[900] },
                 }}
             >
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

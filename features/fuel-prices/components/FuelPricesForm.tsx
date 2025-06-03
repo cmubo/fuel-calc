@@ -106,7 +106,7 @@ export default function FuelPricesForm({
 
                 <TouchableOpacity
                     onPress={handleSubmit(onSubmit)}
-                    className="bg-cyan-500 rounded-lg p-3"
+                    className="bg-sky-500 rounded-lg p-3"
                 >
                     <GroteskTextMedium className="text-white text-center">
                         Submit

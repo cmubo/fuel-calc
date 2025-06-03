@@ -9,7 +9,7 @@ export default function SettingsScreen() {
 
     return (
         <View
-            className="bg-slate-950 w-full flex-1 px-6"
+            className="bg-slate-900 w-full flex-1 px-6"
             style={{ paddingTop: insets.top + GLOBAL_TOP_PADDING }}
         >
             <GroteskTextBold className="text-white text-2xl pb-8">
@@ -23,7 +23,7 @@ export default function SettingsScreen() {
                 }}
             >
                 <Link href="/settings/fuel-prices" asChild>
-                    <TouchableOpacity className="w-full bg-slate-900 rounded-lg shadow p-4">
+                    <TouchableOpacity className="w-full bg-slate-950 rounded-lg shadow-md p-4">
                         <GroteskTextMedium className="text-left text-white text-lg">
                             Fuel Prices
                         </GroteskTextMedium>

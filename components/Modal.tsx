@@ -80,12 +80,12 @@ export function ModalContent({
             }}
         >
             <View
-                className="flex-1 items-center justify-center p-6 py-12 bg-slate-950/70"
+                className="flex-1 items-center justify-center p-6 py-12 bg-slate-900/70"
                 {...wrapperProps}
             >
                 <View
                     style={styles.modalView}
-                    className="bg-slate-950 border-slate-800 border rounded-2xl w-full flex-none flex-col items-start justify-start"
+                    className="bg-slate-900 border-slate-800 border rounded-2xl w-full flex-none flex-col items-start justify-start"
                     {...containerProps}
                 >
                     {children}

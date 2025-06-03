@@ -1,5 +1,6 @@
 import TabBar from "@/components/TabBar";
 import TabIcon from "@/components/TabIcon";
+import { twColors } from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -24,9 +25,12 @@ export default function TabLayout() {
                 <Tabs
                     tabBar={(props) => <TabBar {...props} />}
                     screenOptions={{
+                        sceneStyle: {
+                            backgroundColor: twColors.slate[900],
+                        },
                         headerShown: false,
                         tabBarActiveTintColor: "white",
-                        tabBarInactiveTintColor: "gray",
+                        tabBarInactiveTintColor: "white",
                         animation: "fade",
                         transitionSpec: {
                             animation: "timing",

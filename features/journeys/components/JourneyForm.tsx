@@ -127,7 +127,7 @@ export default function JourneyForm({
                 <View className="flex-1 items-center justify-center flex-row gap-2">
                     <TouchableOpacity
                         onPress={handleSubmit(onSubmit)}
-                        className="bg-cyan-500 rounded-lg p-3 w-full flex-1"
+                        className="bg-sky-500 rounded-lg p-3 w-full flex-1"
                     >
                         <GroteskTextMedium
                             className="text-white text-center text-lg"

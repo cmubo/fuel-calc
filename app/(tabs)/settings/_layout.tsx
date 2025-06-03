@@ -6,7 +6,7 @@ export default function SettingsRootLayout() {
         <Stack
             screenOptions={{
                 headerStyle: {
-                    backgroundColor: twColors.slate[950],
+                    backgroundColor: twColors.slate[900],
                 },
                 headerTintColor: twColors.white,
             }}

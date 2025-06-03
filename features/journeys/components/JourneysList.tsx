@@ -55,7 +55,7 @@ export default function JourneysList() {
 
     return (
         <FlatList
-            contentContainerClassName="gap-4 w-full px-6 bg-slate-950"
+            contentContainerClassName="gap-4 w-full px-6 bg-slate-900"
             contentContainerStyle={{
                 paddingBottom: insets.bottom + GLOBAL_BOTTOM_PADDING,
                 paddingTop: insets.top + GLOBAL_TOP_PADDING,
@@ -69,7 +69,7 @@ export default function JourneysList() {
                         No journeys saved
                     </GroteskTextSemiBold>
                     <Link href="/(tabs)" className="mt-8">
-                        <GroteskTextSemiBold className="text-blue-500 font-medium text-lg">
+                        <GroteskTextSemiBold className="text-sky-500 font-medium text-lg">
                             Create new journey
                         </GroteskTextSemiBold>
                     </Link>
@@ -79,7 +79,7 @@ export default function JourneysList() {
                 <RefreshControl
                     refreshing={refreshing}
                     onRefresh={onRefresh}
-                    tintColor={twColors.blue["500"]}
+                    tintColor={twColors.sky["500"]}
                 />
             }
         />
@@ -108,14 +108,14 @@ function JourneyItem({
     });
 
     return (
-        <View className="flex-1 flex-row gap-4 rounded-lg shadow bg-slate-900 p-4 w-full items-start justify-start">
+        <View className="flex-1 flex-row gap-4 rounded-md bg-slate-950 p-4 w-full items-start justify-start shadow-lg">
             <View className="flex-1 flex-col gap-2 flex-grow w-full">
                 <GroteskTextMedium className="text-white font-bold text-2xl">
                     £{price}
                 </GroteskTextMedium>
                 {splitBetween > 1 ? (
                     <GroteskTextMedium className="text-slate-400">
-                        Split between {splitBetween} people, cost: £
+                        {splitBetween} people, cost: £
                         {DecimalPrecision2.round(price / splitBetween, 2)}
                     </GroteskTextMedium>
                 ) : null}

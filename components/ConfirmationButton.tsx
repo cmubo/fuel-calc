@@ -46,7 +46,7 @@ export default function ConfirmationButton({
                     <View className="flex items-center justify-center gap-4 flex-row">
                         <TouchableOpacity
                             onPress={performAction}
-                            className="bg-cyan-500 rounded-lg p-3 flex-1"
+                            className="bg-sky-500 rounded-lg p-3 flex-1"
                         >
                             <GroteskTextMedium className="text-center">
                                 Yes

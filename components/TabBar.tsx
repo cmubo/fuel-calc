@@ -86,7 +86,7 @@ function TabBarButton({
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: twColors.slate[800],
+        backgroundColor: twColors.sky[950],
     },
     container: {
         flexDirection: "row",

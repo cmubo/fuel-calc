@@ -36,7 +36,7 @@ export default function FuelPriceQuickSelect({
             data={fuelPrices}
             renderItem={({ item }) => (
                 <TouchableOpacity
-                    className="bg-cyan-500 rounded-lg p-3 px-8"
+                    className="bg-sky-500 rounded-lg p-3 px-8"
                     onPress={() => {
                         onFuelPriceSelect(item.price);
                         dismiss();

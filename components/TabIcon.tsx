@@ -1,4 +1,3 @@
-import { twColors } from "@/constants/Colors";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
         overflow: "hidden",
     },
     label: {
-        color: twColors.cyan[100],
+        color: "white",
         fontWeight: 600,
     },
 });

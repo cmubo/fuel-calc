@@ -26,7 +26,7 @@ export default function CalculatorScreen() {
 
     return (
         <ScrollView
-            contentContainerClassName="px-6 bg-slate-950"
+            contentContainerClassName="px-6 bg-slate-900"
             contentContainerStyle={{
                 paddingBottom: insets.bottom + GLOBAL_BOTTOM_PADDING,
                 paddingTop: insets.top + GLOBAL_TOP_PADDING,
