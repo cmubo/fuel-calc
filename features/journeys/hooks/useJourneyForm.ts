@@ -13,7 +13,7 @@ import { z } from "zod";
 import { insertJourney, updateJourney } from "../db";
 import { journeySchema } from "../schema";
 
-type JourneyRawFormValues = Omit<
+export type JourneyRawFormValues = Omit<
     z.infer<typeof journeySchema>,
     "price" | "mpg" | "pricePerLitre" | "distanceInMiles" | "splitBetween"
 > & {
@@ -23,7 +23,7 @@ type JourneyRawFormValues = Omit<
     splitBetween: string | number;
 };
 
-interface useJourneyFormProps {
+export interface useJourneyFormProps {
     journey?: Partial<typeof fuelPricesTable.$inferInsert> & {
         id: number;
         mpg: number;

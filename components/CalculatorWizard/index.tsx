@@ -1,0 +1,72 @@
+import useJourneyForm from "@/features/journeys/hooks/useJourneyForm";
+import { useState } from "react";
+import { FormProvider } from "react-hook-form";
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import CalculatorWizardFooter from "./CalculatorWizardFooter";
+import CalculatorWizardHeader from "./CalculatorWizardHeader";
+import CalculatorWizardSteps from "./CalculatorWizardSteps";
+import { PreviousFormValueType } from "./types";
+
+export default function CalculatorWizard() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [previousValues, setPreviousValues] = useState<
+        PreviousFormValueType[]
+    >([]);
+
+    const { splitCost, cost, errors, form } = useJourneyForm({});
+
+    const handleNavigation = (direction: "forward" | "back") => {
+        if (direction === "forward") {
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+        } else if (direction === "back" && currentIndex > 0) {
+            setPreviousValues((prev) => {
+                prev.pop();
+                return prev;
+            });
+            setCurrentIndex((prevIndex) => prevIndex - 1);
+        }
+    };
+
+    return (
+        <FormProvider {...form}>
+            <KeyboardAvoidingView
+                style={[styles.screenWrapper]}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+                <CalculatorWizardHeader
+                    index={currentIndex}
+                    handleNavigation={handleNavigation}
+                    previousValues={previousValues}
+                />
+
+                <View style={styles.mainContainer}>
+                    <CalculatorWizardSteps
+                        index={currentIndex}
+                        errors={errors}
+                        cost={cost}
+                        splitCost={splitCost}
+                    />
+                </View>
+
+                <CalculatorWizardFooter
+                    index={currentIndex}
+                    form={form}
+                    handleNavigation={handleNavigation}
+                    setPreviousValues={setPreviousValues}
+                />
+            </KeyboardAvoidingView>
+        </FormProvider>
+    );
+}
+
+const styles = StyleSheet.create({
+    screenWrapper: {
+        width: "100%",
+        flex: 1,
+        justifyContent: "space-between",
+    },
+    mainContainer: {
+        padding: 24,
+        width: "100%",
+    },
+});
