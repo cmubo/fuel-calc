@@ -1,8 +1,9 @@
+import ConfirmationButton from "@/components/ConfirmationButton";
 import HeroIcon from "@/components/icons/HeroIcon";
 import { GroteskText } from "@/components/StyledText";
 import { twColors } from "@/constants/Colors";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Animated, {
@@ -18,6 +19,8 @@ import { PreviousFormValueType } from "./types";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 const AnimatedHeroIcon = Animated.createAnimatedComponent(HeroIcon);
+const AnimatedConfirmationButton =
+    Animated.createAnimatedComponent(ConfirmationButton);
 
 const NEXT_BUTTON_WIDTH_SMALL = 126;
 const NEXT_BUTTON_WIDTH_LARGE = 160;
@@ -36,11 +39,13 @@ export default function CalculatorWizardFooter({
     index,
     form,
     setPreviousValues,
+    setIndex,
 }: {
     handleNavigation: (direction: "forward" | "back") => void;
     index: number;
     form: UseFormReturn<JourneyRawFormValues, any, JourneyRawFormValues>;
     setPreviousValues: Dispatch<SetStateAction<PreviousFormValueType[]>>;
+    setIndex: Dispatch<SetStateAction<number>>;
 }) {
     const currentStep = STEPS[index.toString()];
     const nextButtonWidth = useSharedValue(126);
@@ -65,7 +70,8 @@ export default function CalculatorWizardFooter({
     useEffect(() => {
         if (currentStep.name === "result") {
             nextButtonWidth.value = NEXT_BUTTON_WIDTH_LARGE;
-            nextButtonArrowTranslateX.value = -16;
+            // Reset the translate x to the right agin
+            nextButtonArrowTranslateX.value = -NEXT_BUTTON_HORIZONTAL_PADDING;
         } else {
             nextButtonWidth.value = NEXT_BUTTON_WIDTH_SMALL;
 
@@ -73,7 +79,7 @@ export default function CalculatorWizardFooter({
         }
     }, [currentStep]);
 
-    const onNavigation = () => {
+    const onNavigation = useCallback(() => {
         if (currentStep.field !== null) {
             const validation = form.trigger(
                 currentStep.field as keyof JourneyRawFormValues,
@@ -118,15 +124,29 @@ export default function CalculatorWizardFooter({
         } else {
             handleNavigation("forward");
         }
+    }, [handleNavigation, form, currentStep]);
+
+    const resetForm = () => {
+        form.reset();
+        setPreviousValues([]);
+        setIndex(0);
     };
 
     return (
         <View style={styles.footerContainer}>
             <View>
                 {currentStep.name === "result" ? (
-                    <Animated.View entering={FadeIn} exiting={FadeOut}>
-                        <GroteskText>Reset?</GroteskText>
-                    </Animated.View>
+                    <AnimatedConfirmationButton
+                        entering={FadeIn}
+                        exiting={FadeOut}
+                        action={resetForm}
+                        title="Reset form inputs"
+                        subtitle="Are you sure you want to reset all form inputs?"
+                    >
+                        <GroteskText style={{ color: twColors.sky[200] }}>
+                            Reset?
+                        </GroteskText>
+                    </AnimatedConfirmationButton>
                 ) : null}
             </View>
 

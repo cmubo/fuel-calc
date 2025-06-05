@@ -53,6 +53,7 @@ export default function CalculatorWizard() {
 
                 <CalculatorWizardFooter
                     index={currentIndex}
+                    setIndex={setCurrentIndex}
                     form={form}
                     handleNavigation={handleNavigation}
                     setPreviousValues={setPreviousValues}
