@@ -1,5 +1,5 @@
-import CalculatorWizard from "@/components/CalculatorWizard";
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
+import CalculatorWizard from "@/features/calculator-wizard";
 import { getDefaultFuelPrice } from "@/features/fuel-prices/db";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
