@@ -1,9 +1,16 @@
 import { GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
+import { twColors } from "@/constants/Colors";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
 import { useEffect, useRef } from "react";
 import { FieldErrors, UseFormReturn } from "react-hook-form";
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import {
+    Keyboard,
+    TextInput as RNTextInput,
+    StyleSheet,
+    useWindowDimensions,
+    View,
+} from "react-native";
 import Animated, {
     Easing,
     useAnimatedStyle,
@@ -13,6 +20,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import InputWrapper from "./CalculatorWizardInputWrapper";
 import CalculatorWizardSelectFuelPriceModal from "./CalculatorWizardSelectFuelPrice";
+import { STEPS } from "./constants";
 
 export default function CalculatorWizardSteps({
     index,
@@ -27,10 +35,14 @@ export default function CalculatorWizardSteps({
     splitCost: string;
     form: UseFormReturn<JourneyRawFormValues, any, JourneyRawFormValues>;
 }) {
+    const currentStep = STEPS[index.toString()];
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
         useWindowDimensions();
-    const sliderRef = useRef(null);
     const insets = useSafeAreaInsets();
+    const mpgRef = useRef<RNTextInput>(null);
+    const pricePerLitreRef = useRef<RNTextInput>(null);
+    const distanceInMilesRef = useRef<RNTextInput>(null);
+    const splitBetweenRef = useRef<RNTextInput>(null);
 
     const sliderTranslateX = useSharedValue(0);
 
@@ -47,6 +59,16 @@ export default function CalculatorWizardSteps({
 
     useEffect(() => {
         sliderTranslateX.value = -(SCREEN_WIDTH * index);
+
+        if (currentStep.name === "pricePerLitre") {
+            pricePerLitreRef.current?.focus();
+        } else if (currentStep.name === "distanceInMiles") {
+            distanceInMilesRef.current?.focus();
+        } else if (currentStep.name === "splitBetween") {
+            splitBetweenRef.current?.focus();
+        } else {
+            Keyboard.dismiss();
+        }
     }, [index]);
 
     return (
@@ -56,7 +78,6 @@ export default function CalculatorWizardSteps({
                 animatedSliderStyles,
                 { paddingTop: insets.top },
             ]}
-            ref={sliderRef}
         >
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <InputWrapper
@@ -71,6 +92,8 @@ export default function CalculatorWizardSteps({
                         keyboardType="decimal-pad"
                         style={styles.textInput}
                         key="mpg"
+                        placeholderTextColor={twColors.slate[600]}
+                        ref={mpgRef}
                     />
                 </InputWrapper>
             </View>
@@ -87,6 +110,8 @@ export default function CalculatorWizardSteps({
                         placeholder="125.50"
                         keyboardType="decimal-pad"
                         key="pricePerLitre"
+                        placeholderTextColor={twColors.slate[600]}
+                        ref={pricePerLitreRef}
                     />
 
                     <View style={{ paddingTop: 10 }}>
@@ -112,6 +137,8 @@ export default function CalculatorWizardSteps({
                         placeholder="100"
                         keyboardType="decimal-pad"
                         key="distanceInMiles"
+                        placeholderTextColor={twColors.slate[600]}
+                        ref={distanceInMilesRef}
                     />
                 </InputWrapper>
             </View>
@@ -129,6 +156,8 @@ export default function CalculatorWizardSteps({
                         placeholder="1"
                         keyboardType="number-pad"
                         key="splitBetween"
+                        placeholderTextColor={twColors.slate[600]}
+                        ref={splitBetweenRef}
                     />
                 </InputWrapper>
             </View>

@@ -7,7 +7,7 @@ import {
     BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { useRef } from "react";
-import { TouchableOpacity } from "react-native";
+import { Keyboard, TouchableOpacity } from "react-native";
 
 export default function CalculatorWizardSelectFuelPriceModal({
     onFuelPriceSelect,
@@ -16,8 +16,10 @@ export default function CalculatorWizardSelectFuelPriceModal({
 }) {
     const bottomSheetModalRef = useRef<BottomSheetModalType>(null);
 
-    const handlePresentModalPress = () =>
+    const handlePresentModalPress = () => {
+        Keyboard.dismiss();
         bottomSheetModalRef.current?.present();
+    };
 
     return (
         <>

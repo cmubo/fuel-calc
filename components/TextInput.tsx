@@ -1,3 +1,4 @@
+import { Ref } from "react";
 import { useController, UseControllerProps } from "react-hook-form";
 import {
     TextInput as RNTextInput,
@@ -6,6 +7,7 @@ import {
 
 interface TextInputProps extends RNTextInputProps, UseControllerProps {
     defaultValue?: string;
+    ref?: Ref<RNTextInput>;
 }
 
 export default function TextInput(props: TextInputProps) {
