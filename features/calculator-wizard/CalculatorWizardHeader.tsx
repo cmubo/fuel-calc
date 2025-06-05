@@ -1,6 +1,12 @@
 import { GroteskText } from "@/components/StyledText";
 import HeroIcon from "@/components/icons/HeroIcon";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import Animated, {
+    FadeInRight,
+    FadeInUp,
+    FadeOutLeft,
+    FadeOutUp,
+} from "react-native-reanimated";
 import { PreviousFormValueType } from "./types";
 
 export default function CalculatorWizardHeader({
@@ -15,25 +21,43 @@ export default function CalculatorWizardHeader({
     return (
         <View style={styles.headerContainer}>
             {index === 0 ? (
-                <View style={{ paddingRight: 8, paddingBottom: 8 }}>
-                    <GroteskText>Lets Get Started</GroteskText>
-                </View>
-            ) : (
-                <TouchableOpacity
-                    onPress={() => handleNavigation("back")}
+                <Animated.View
+                    entering={FadeInRight}
+                    exiting={FadeOutLeft}
                     style={{ paddingRight: 8, paddingBottom: 8 }}
                 >
-                    <HeroIcon icon="arrow-long-left" color="white" size={30} />
-                </TouchableOpacity>
-            )}
+                    <GroteskText style={{ lineHeight: 30 }}>
+                        Lets Get Started
+                    </GroteskText>
+                </Animated.View>
+            ) : null}
+
+            {index !== 0 ? (
+                <Animated.View entering={FadeInRight} exiting={FadeOutLeft}>
+                    <TouchableOpacity
+                        onPress={() => handleNavigation("back")}
+                        style={{ paddingRight: 8, paddingBottom: 8 }}
+                    >
+                        <HeroIcon
+                            icon="arrow-long-left"
+                            color="white"
+                            size={30}
+                        />
+                    </TouchableOpacity>
+                </Animated.View>
+            ) : null}
 
             <View style={styles.previousResultsContainer}>
                 {previousValues.map((prev, i) => (
-                    <View key={i}>
+                    <Animated.View
+                        key={prev.name}
+                        entering={FadeInUp}
+                        exiting={FadeOutUp}
+                    >
                         <GroteskText style={styles.previousResultsText}>
                             {prev.label}: {prev.value}
                         </GroteskText>
-                    </View>
+                    </Animated.View>
                 ))}
             </View>
         </View>

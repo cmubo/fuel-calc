@@ -8,5 +8,9 @@ export type PreviousFormValueType = {
 
 export type StepsType = Record<
     string,
-    { label: string | null; field: keyof JourneyRawFormValues | null }
+    {
+        name: string;
+        label: string | null;
+        field: keyof JourneyRawFormValues | null;
+    }
 >;
