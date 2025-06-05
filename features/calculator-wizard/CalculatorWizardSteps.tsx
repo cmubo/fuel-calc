@@ -6,9 +6,11 @@ import { FieldErrors } from "react-hook-form";
 import { StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
     Easing,
+    useAnimatedStyle,
     useSharedValue,
     withTiming,
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import InputWrapper from "./CalculatorWizardInputWrapper";
 
 export default function CalculatorWizardSteps({
@@ -25,22 +27,32 @@ export default function CalculatorWizardSteps({
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
         useWindowDimensions();
     const sliderRef = useRef(null);
+    const insets = useSafeAreaInsets();
 
     const sliderTranslateX = useSharedValue(0);
 
+    const animatedSliderStyles = useAnimatedStyle(() => ({
+        transform: [
+            {
+                translateX: withTiming(sliderTranslateX.value, {
+                    duration: 300,
+                    easing: Easing.inOut(Easing.quad),
+                }),
+            },
+        ],
+    }));
+
     useEffect(() => {
-        sliderTranslateX.value = withTiming(-(SCREEN_WIDTH * index), {
-            duration: 300,
-            easing: Easing.inOut(Easing.quad),
-        });
+        sliderTranslateX.value = -(SCREEN_WIDTH * index);
     }, [index]);
 
     return (
         <Animated.View
-            style={{
-                flexDirection: "row",
-                transform: [{ translateX: sliderTranslateX }],
-            }}
+            style={[
+                styles.slider,
+                animatedSliderStyles,
+                { paddingTop: insets.top },
+            ]}
             ref={sliderRef}
         >
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
@@ -144,6 +156,9 @@ function FinalCostStep({ cost, splitCost }: FinalCostStepProps) {
     );
 }
 const styles = StyleSheet.create({
+    slider: {
+        flexDirection: "row",
+    },
     textInput: {
         borderBottomColor: "white",
         borderBottomWidth: 1,
