@@ -2,12 +2,15 @@ import useJourneyForm from "@/features/journeys/hooks/useJourneyForm";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CalculatorWizardFooter from "./CalculatorWizardFooter";
 import CalculatorWizardHeader from "./CalculatorWizardHeader";
 import CalculatorWizardSteps from "./CalculatorWizardSteps";
 import { PreviousFormValueType } from "./types";
 
 export default function CalculatorWizard() {
+    const insets = useSafeAreaInsets();
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [previousValues, setPreviousValues] = useState<
         PreviousFormValueType[]
@@ -15,7 +18,7 @@ export default function CalculatorWizard() {
 
     const { splitCost, cost, errors, form } = useJourneyForm({});
 
-    const handleNavigation = (direction: "forward" | "back") => {
+    const handleNavigation = async (direction: "forward" | "back") => {
         if (direction === "forward") {
             setCurrentIndex((prevIndex) => prevIndex + 1);
         } else if (direction === "back" && currentIndex > 0) {
@@ -30,7 +33,7 @@ export default function CalculatorWizard() {
     return (
         <FormProvider {...form}>
             <KeyboardAvoidingView
-                style={[styles.screenWrapper]}
+                style={[styles.screenWrapper, { paddingTop: insets.top }]}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <CalculatorWizardHeader
@@ -64,9 +67,12 @@ const styles = StyleSheet.create({
         width: "100%",
         flex: 1,
         justifyContent: "space-between",
+        position: "relative",
     },
     mainContainer: {
-        padding: 24,
         width: "100%",
+        position: "absolute",
+        top: "50%",
+        transform: [{ translateY: "-50%" }],
     },
 });

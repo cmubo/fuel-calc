@@ -1,8 +1,14 @@
 import { GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
+import { useEffect, useRef } from "react";
 import { FieldErrors } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
+import Animated, {
+    Easing,
+    useSharedValue,
+    withTiming,
+} from "react-native-reanimated";
 import InputWrapper from "./CalculatorWizardInputWrapper";
 
 export default function CalculatorWizardSteps({
@@ -16,9 +22,28 @@ export default function CalculatorWizardSteps({
     cost: string;
     splitCost: string;
 }) {
-    if (index === 0) {
-        return (
-            <>
+    const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+        useWindowDimensions();
+    const sliderRef = useRef(null);
+
+    const sliderTranslateX = useSharedValue(0);
+
+    useEffect(() => {
+        sliderTranslateX.value = withTiming(-(SCREEN_WIDTH * index), {
+            duration: 300,
+            easing: Easing.inOut(Easing.quad),
+        });
+    }, [index]);
+
+    return (
+        <Animated.View
+            style={{
+                flexDirection: "row",
+                transform: [{ translateX: sliderTranslateX }],
+            }}
+            ref={sliderRef}
+        >
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <InputWrapper
                     label="MPG"
                     subLabel="(Miles Per Gallon)"
@@ -33,11 +58,8 @@ export default function CalculatorWizardSteps({
                         key="mpg"
                     />
                 </InputWrapper>
-            </>
-        );
-    } else if (index === 1) {
-        return (
-            <>
+            </View>
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <InputWrapper
                     label="Price Per Litre"
                     subLabel="(Pence)"
@@ -52,11 +74,9 @@ export default function CalculatorWizardSteps({
                         key="pricePerLitre"
                     />
                 </InputWrapper>
-            </>
-        );
-    } else if (index === 2) {
-        return (
-            <>
+            </View>
+
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <InputWrapper
                     label="Distance"
                     subLabel="(Miles)"
@@ -71,11 +91,9 @@ export default function CalculatorWizardSteps({
                         key="distanceInMiles"
                     />
                 </InputWrapper>
-            </>
-        );
-    } else if (index === 3) {
-        return (
-            <>
+            </View>
+
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <InputWrapper
                     label="Split Between"
                     subLabel="(# of people)"
@@ -90,13 +108,12 @@ export default function CalculatorWizardSteps({
                         key="splitBetween"
                     />
                 </InputWrapper>
-            </>
-        );
-    } else if (index === 4) {
-        return <FinalCostStep cost={cost} splitCost={splitCost} />;
-    }
-
-    return null;
+            </View>
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+                <FinalCostStep cost={cost} splitCost={splitCost} />
+            </View>
+        </Animated.View>
+    );
 }
 
 interface FinalCostStepProps {
