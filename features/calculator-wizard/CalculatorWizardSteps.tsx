@@ -2,7 +2,7 @@ import { GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
 import { useEffect, useRef } from "react";
-import { FieldErrors } from "react-hook-form";
+import { FieldErrors, UseFormReturn } from "react-hook-form";
 import { StyleSheet, useWindowDimensions, View } from "react-native";
 import Animated, {
     Easing,
@@ -12,17 +12,20 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import InputWrapper from "./CalculatorWizardInputWrapper";
+import CalculatorWizardSelectFuelPriceModal from "./CalculatorWizardSelectFuelPrice";
 
 export default function CalculatorWizardSteps({
     index,
     errors,
     cost,
     splitCost,
+    form,
 }: {
     index: number;
     errors: FieldErrors<JourneyRawFormValues>;
     cost: string;
     splitCost: string;
+    form: UseFormReturn<JourneyRawFormValues, any, JourneyRawFormValues>;
 }) {
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
         useWindowDimensions();
@@ -85,6 +88,14 @@ export default function CalculatorWizardSteps({
                         keyboardType="decimal-pad"
                         key="pricePerLitre"
                     />
+
+                    <View style={{ paddingTop: 10 }}>
+                        <CalculatorWizardSelectFuelPriceModal
+                            onFuelPriceSelect={(price) =>
+                                form.setValue("pricePerLitre", String(price))
+                            }
+                        />
+                    </View>
                 </InputWrapper>
             </View>
 

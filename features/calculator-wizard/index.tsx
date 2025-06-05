@@ -48,6 +48,7 @@ export default function CalculatorWizard() {
                         errors={errors}
                         cost={cost}
                         splitCost={splitCost}
+                        form={form}
                     />
                 </View>
 
