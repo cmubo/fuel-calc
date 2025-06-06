@@ -1,4 +1,4 @@
-import { fuelPricesTable } from "@/db/schema";
+import { fuelPricesTable, journeysTable } from "@/db/schema";
 import {
     calculatePriceOfFuel,
     DecimalPrecision2,
@@ -13,7 +13,7 @@ import { z } from "zod";
 import { insertJourney, updateJourney } from "../db";
 import { journeySchema } from "../schema";
 
-type JourneyRawFormValues = Omit<
+export type JourneyRawFormValues = Omit<
     z.infer<typeof journeySchema>,
     "price" | "mpg" | "pricePerLitre" | "distanceInMiles" | "splitBetween"
 > & {
@@ -23,7 +23,7 @@ type JourneyRawFormValues = Omit<
     splitBetween: string | number;
 };
 
-interface useJourneyFormProps {
+export interface useJourneyFormProps {
     journey?: Partial<typeof fuelPricesTable.$inferInsert> & {
         id: number;
         mpg: number;
@@ -32,7 +32,9 @@ interface useJourneyFormProps {
         distanceInMiles: number;
         splitBetween: number;
     };
-    onSuccessfulSubmitCallback?: () => void;
+    onSuccessfulSubmitCallback?: (
+        result: typeof journeysTable.$inferSelect,
+    ) => void;
     defaultFuelPrice?: number | null;
 }
 
@@ -136,6 +138,7 @@ export default function useJourneyForm({
     const onSubmit = useCallback(
         async (values: JourneyRawFormValues) => {
             try {
+                let result: typeof journeysTable.$inferSelect | null = null;
                 const mpg = Number(values.mpg);
                 const distanceInMiles = Number(values.distanceInMiles);
                 const pricePerLitre = Number(values.pricePerLitre);
@@ -146,7 +149,7 @@ export default function useJourneyForm({
                 }
 
                 if (journey && journey.id) {
-                    await updateJourney(sqliteContext, journey.id, {
+                    result = await updateJourney(sqliteContext, journey.id, {
                         ...values,
                         mpg,
                         pricePerLitre,
@@ -155,7 +158,7 @@ export default function useJourneyForm({
                         price: _cost,
                     });
                 } else {
-                    await insertJourney(sqliteContext, {
+                    result = await insertJourney(sqliteContext, {
                         ...values,
                         mpg,
                         pricePerLitre,
@@ -169,7 +172,7 @@ export default function useJourneyForm({
                     queryKey: ["journeys"],
                 });
 
-                onSuccessfulSubmitCallback?.();
+                onSuccessfulSubmitCallback?.(result);
             } catch (error) {
                 console.log("error: ", error);
                 // TODO: show an error, might be able to use: https://github.com/nandorojo/burnt/

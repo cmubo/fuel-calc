@@ -192,7 +192,7 @@ export const twColors = {
         900: "#134e4a",
         950: "#042f2e",
     },
-    cyan: {
+    sky: {
         50: "#ecfeff",
         100: "#cffafe",
         200: "#a5f3fc",
@@ -216,6 +216,7 @@ export const twColors = {
         700: "#0369a1",
         800: "#075985",
         900: "#0c4a6e",
+        950: "#082f49",
     },
     blue: {
         50: "#eff6ff",

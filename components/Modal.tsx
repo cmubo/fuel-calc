@@ -7,6 +7,7 @@ import {
     StyleSheet,
     TouchableOpacity,
     View,
+    ViewProps,
 } from "react-native";
 import Slot from "./Slot";
 
@@ -58,7 +59,15 @@ export function ModalTrigger({ asChild, ...props }: ModalTriggerProps) {
     );
 }
 
-export function ModalContent({ children }: { children: React.ReactNode }) {
+export function ModalContent({
+    children,
+    wrapperProps,
+    containerProps,
+}: {
+    children: React.ReactNode;
+    wrapperProps?: ViewProps;
+    containerProps?: ViewProps;
+}) {
     const { open, setOpen } = useContext(modalContext);
 
     return (
@@ -70,21 +79,30 @@ export function ModalContent({ children }: { children: React.ReactNode }) {
                 setOpen(!open);
             }}
         >
-            <View className="flex-1 items-center justify-center m-6 my-12">
+            <View
+                className="flex-1 items-center justify-center p-6 py-12 bg-slate-900/70"
+                {...wrapperProps}
+            >
                 <View
                     style={styles.modalView}
-                    className=" bg-slate-950 border-slate-800 border rounded-2xl w-full flex-none flex-col"
+                    className="bg-slate-900 border-slate-800 border rounded-2xl w-full flex-none flex-col items-start justify-start"
+                    {...containerProps}
                 >
-                    <View className="w-full flex-auto items-end p-4">
-                        <TouchableOpacity onPress={() => setOpen(!open)}>
-                            <FontAwesome name="close" color="#fff" size={24} />
-                        </TouchableOpacity>
-                    </View>
-
                     {children}
                 </View>
             </View>
         </RNModal>
+    );
+}
+
+export function ModalHeader() {
+    const { open, setOpen } = useContext(modalContext);
+    return (
+        <View className="w-full flex-none items-end p-4">
+            <TouchableOpacity onPress={() => setOpen(!open)}>
+                <FontAwesome name="close" color="#fff" size={24} />
+            </TouchableOpacity>
+        </View>
     );
 }
 
@@ -98,14 +116,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-    },
-    button: {
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
+        overflow: "hidden",
     },
 });

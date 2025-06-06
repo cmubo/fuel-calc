@@ -1,10 +1,11 @@
 import QueryLoadingAndErrorState from "@/components/QueryLoadingAndErrorState";
+import { GroteskTextBold, GroteskTextMedium } from "@/components/StyledText";
 import { getAllFuelPrices } from "@/features/fuel-prices/db";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useBottomSheetModal } from "@gorhom/bottom-sheet";
 import { useQuery } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
 export default function FuelPriceQuickSelect({
@@ -35,7 +36,7 @@ export default function FuelPriceQuickSelect({
             data={fuelPrices}
             renderItem={({ item }) => (
                 <TouchableOpacity
-                    className="bg-cyan-500 rounded-lg p-3 px-8"
+                    className="bg-sky-500 rounded-lg p-3 px-8"
                     onPress={() => {
                         onFuelPriceSelect(item.price);
                         dismiss();
@@ -43,12 +44,12 @@ export default function FuelPriceQuickSelect({
                 >
                     <View className="flex-row justify-between items-center gap-4">
                         <View>
-                            <Text className="text-white text-center">
+                            <GroteskTextMedium className="text-white text-center">
                                 {String(item.name)}
-                            </Text>
-                            <Text className="text-white text-center font-bold text-lg ">
+                            </GroteskTextMedium>
+                            <GroteskTextBold className="text-white text-center text-lg ">
                                 {String(item.price)}
-                            </Text>
+                            </GroteskTextBold>
                         </View>
                         <FontAwesome
                             name="chevron-right"
@@ -61,7 +62,7 @@ export default function FuelPriceQuickSelect({
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={
                 <View>
-                    <Text>No fuel prices saved</Text>
+                    <GroteskTextMedium>No fuel prices saved</GroteskTextMedium>
                 </View>
             }
         />

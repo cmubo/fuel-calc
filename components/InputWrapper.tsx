@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { GroteskTextMedium } from "./StyledText";
 
 export default function InputWrapper({
     children,
@@ -13,14 +14,16 @@ export default function InputWrapper({
 }) {
     return (
         <View className="flex-1 gap-2">
-            <Text className="text-white text-lg">{label}</Text>
+            <GroteskTextMedium className="text-white text-lg">
+                {label}
+            </GroteskTextMedium>
 
             {children}
 
             {errors && (
-                <Text className="text-white">
+                <GroteskTextMedium className="text-white">
                     {errorMessage ? errorMessage : errors.message}
-                </Text>
+                </GroteskTextMedium>
             )}
         </View>
     );

@@ -1,9 +1,13 @@
+import ConfirmationButton from "@/components/ConfirmationButton";
+import HeroIcon from "@/components/icons/HeroIcon";
 import InputWrapper from "@/components/InputWrapper";
+import { GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
+import { twColors } from "@/constants/Colors";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
 import { FormProvider } from "react-hook-form";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import useJourneyForm from "../hooks/useJourneyForm";
 import SelectFuelPriceModal from "./SelectFuelPriceModal";
 
@@ -50,7 +54,7 @@ export default function JourneyForm({
                         className={reusableStyles.textInput}
                         autoCorrect={false}
                         placeholder="35"
-                        keyboardType="number-pad"
+                        keyboardType="decimal-pad"
                     />
                 </InputWrapper>
 
@@ -64,7 +68,7 @@ export default function JourneyForm({
                             className={reusableStyles.textInput}
                             autoCorrect={false}
                             placeholder="125.50"
-                            keyboardType="number-pad"
+                            keyboardType="decimal-pad"
                         />
 
                         <SelectFuelPriceModal
@@ -84,7 +88,7 @@ export default function JourneyForm({
                         className={reusableStyles.textInput}
                         autoCorrect={false}
                         placeholder="100"
-                        keyboardType="number-pad"
+                        keyboardType="decimal-pad"
                     />
                 </InputWrapper>
 
@@ -103,30 +107,45 @@ export default function JourneyForm({
 
                 <View ref={setCostsCallbackRef} className="gap-2">
                     <View>
-                        <Text className="text-white text-lg">Cost:</Text>
-                        <Text className="text-white text-3xl">£{cost}</Text>
+                        <GroteskTextMedium className="text-white text-lg">
+                            Cost:
+                        </GroteskTextMedium>
+                        <GroteskTextMedium className="text-white text-3xl">
+                            £{cost}
+                        </GroteskTextMedium>
                     </View>
                     <View>
-                        <Text className="text-white text-lg">Split Cost:</Text>
-                        <Text className="text-white text-3xl">
+                        <GroteskTextMedium className="text-white text-lg">
+                            Split Cost:
+                        </GroteskTextMedium>
+                        <GroteskTextMedium className="text-white text-3xl">
                             £{splitCost}
-                        </Text>
+                        </GroteskTextMedium>
                     </View>
                 </View>
 
-                <TouchableOpacity
-                    onPress={handleSubmit(onSubmit)}
-                    className="bg-cyan-500 rounded-lg p-3"
-                >
-                    <Text className="text-white text-center">Save Journey</Text>
-                </TouchableOpacity>
+                <View className="flex-1 items-center justify-center flex-row gap-2">
+                    <TouchableOpacity
+                        onPress={handleSubmit(onSubmit)}
+                        className="bg-sky-500 rounded-lg p-3 w-full flex-1"
+                    >
+                        <GroteskTextMedium
+                            className="text-white text-center text-lg"
+                            style={{ lineHeight: 20 }}
+                        >
+                            Save Journey
+                        </GroteskTextMedium>
+                    </TouchableOpacity>
 
-                <TouchableOpacity
-                    onPress={() => reset()}
-                    className="bg-red-500 rounded-lg p-3 mt-2"
-                >
-                    <Text className="text-white text-center">Reset Form</Text>
-                </TouchableOpacity>
+                    <ConfirmationButton
+                        className="bg-red-500 rounded-lg p-3"
+                        action={reset}
+                        title="Reset form inputs"
+                        subtitle="Are you sure you want to reset all form inputs?"
+                    >
+                        <HeroIcon icon="arrow-path" color={twColors.white} />
+                    </ConfirmationButton>
+                </View>
             </FormProvider>
         </View>
     );

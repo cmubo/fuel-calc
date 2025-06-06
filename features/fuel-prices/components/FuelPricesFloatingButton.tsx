@@ -11,7 +11,7 @@ export default function fuelPricesFloatingButton() {
     return (
         <Link href="/(modals)/newFuelPrice" asChild>
             <TouchableOpacity
-                className="bg-cyan-600 rounded-full shadow p-3 absolute right-6 w-12 h-12 flex items-center justify-center"
+                className="bg-sky-600 rounded-full shadow p-3 absolute right-6 w-12 h-12 flex items-center justify-center"
                 style={{
                     bottom: insets.bottom + GLOBAL_BOTTOM_PADDING,
                 }}

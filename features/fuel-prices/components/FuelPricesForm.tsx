@@ -1,4 +1,5 @@
 import InputWrapper from "@/components/InputWrapper";
+import { GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
@@ -7,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 import { insertFuelPrice, updateFuelPrice } from "../db";
 import { fuelPriceSchema } from "../schema";
@@ -105,9 +106,11 @@ export default function FuelPricesForm({
 
                 <TouchableOpacity
                     onPress={handleSubmit(onSubmit)}
-                    className="bg-cyan-500 rounded-lg p-3"
+                    className="bg-sky-500 rounded-lg p-3"
                 >
-                    <Text className="text-white text-center">Submit</Text>
+                    <GroteskTextMedium className="text-white text-center">
+                        Submit
+                    </GroteskTextMedium>
                 </TouchableOpacity>
             </FormProvider>
         </View>

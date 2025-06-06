@@ -5,7 +5,8 @@ import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { SQLiteProvider } from "expo-sqlite";
 import { Suspense } from "react";
 
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
+import { GroteskTextMedium } from "../StyledText";
 
 export default function DBProvider({
     children,
@@ -18,7 +19,9 @@ export default function DBProvider({
     if (error) {
         return (
             <View>
-                <Text>Migration error: {error.message}</Text>
+                <GroteskTextMedium>
+                    Migration error: {error.message}
+                </GroteskTextMedium>
             </View>
         );
     }
@@ -26,7 +29,9 @@ export default function DBProvider({
     if (!success) {
         return (
             <View>
-                <Text>Migration is in progress...</Text>
+                <GroteskTextMedium>
+                    Migration is in progress...
+                </GroteskTextMedium>
             </View>
         );
     }
