@@ -22,4 +22,9 @@ export const STEPS: StepsType = {
         label: null,
         field: null,
     },
+    5: {
+        name: "saved",
+        label: null,
+        field: null,
+    },
 };

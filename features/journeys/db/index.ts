@@ -1,13 +1,16 @@
 import * as schema from "@/db/schema";
 import { journeysTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { SQLiteDatabase } from "expo-sqlite";
 
 export async function getAllJourneys(SQLite: SQLiteDatabase) {
     const db = drizzle(SQLite, { schema });
 
-    return db.select().from(journeysTable);
+    return await db
+        .select()
+        .from(journeysTable)
+        .orderBy(desc(journeysTable.createdAt));
 }
 
 export async function getJourney(SQLite: SQLiteDatabase, id: number | string) {

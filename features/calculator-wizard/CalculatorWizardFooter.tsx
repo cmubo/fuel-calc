@@ -40,46 +40,28 @@ export default function CalculatorWizardFooter({
     form,
     setPreviousValues,
     setIndex,
+    onSubmit,
+    setSavedJourneyId,
 }: {
     handleNavigation: (direction: "forward" | "back") => void;
     index: number;
     form: UseFormReturn<JourneyRawFormValues, any, JourneyRawFormValues>;
     setPreviousValues: Dispatch<SetStateAction<PreviousFormValueType[]>>;
     setIndex: Dispatch<SetStateAction<number>>;
+    setSavedJourneyId: Dispatch<SetStateAction<number | null>>;
+    onSubmit: (values: JourneyRawFormValues) => Promise<void>;
 }) {
     const currentStep = STEPS[index.toString()];
-    const nextButtonWidth = useSharedValue(126);
-    const nextButtonArrowTranslateX = useSharedValue(
-        -NEXT_BUTTON_HORIZONTAL_PADDING,
-    );
 
-    const nextButtonAnimatedStyles = useAnimatedStyle(() => ({
-        width: withTiming(nextButtonWidth.value, { duration: 300 }),
-    }));
-
-    const nextButtonArrowStyles = useAnimatedStyle(() => ({
-        transform: [
-            {
-                translateX: withTiming(nextButtonArrowTranslateX.value, {
-                    duration: 300,
-                }),
-            },
-        ],
-    }));
-
-    useEffect(() => {
+    const onNavigation = useCallback(async () => {
+        // Submit the form
         if (currentStep.name === "result") {
-            nextButtonWidth.value = NEXT_BUTTON_WIDTH_LARGE;
-            // Reset the translate x to the right agin
-            nextButtonArrowTranslateX.value = -NEXT_BUTTON_HORIZONTAL_PADDING;
-        } else {
-            nextButtonWidth.value = NEXT_BUTTON_WIDTH_SMALL;
+            await form.handleSubmit(onSubmit)();
 
-            nextButtonArrowTranslateX.value = calulateArrowXPosition("small");
+            return;
         }
-    }, [currentStep]);
 
-    const onNavigation = useCallback(() => {
+        // If this step doesnt have a form input
         if (currentStep.field !== null) {
             const validation = form.trigger(
                 currentStep.field as keyof JourneyRawFormValues,
@@ -126,11 +108,12 @@ export default function CalculatorWizardFooter({
         }
     }, [handleNavigation, form, currentStep]);
 
-    const resetForm = () => {
+    const resetForm = useCallback(() => {
         form.reset();
         setPreviousValues([]);
         setIndex(0);
-    };
+        setSavedJourneyId(null);
+    }, [form, setPreviousValues, setIndex, setSavedJourneyId]);
 
     return (
         <View style={styles.footerContainer}>
@@ -150,22 +133,101 @@ export default function CalculatorWizardFooter({
                 ) : null}
             </View>
 
-            <AnimatedTouchable
+            <NextButton
                 onPress={onNavigation}
+                index={index}
+                resetForm={resetForm}
+            />
+        </View>
+    );
+}
+
+interface NextButtonProps {
+    onPress: () => void;
+    resetForm: () => void;
+    index: number;
+}
+
+function NextButton({ onPress, index, resetForm }: NextButtonProps) {
+    const currentStep = STEPS[index.toString()];
+    const nextButtonWidth = useSharedValue(126);
+    const nextButtonArrowTranslateX = useSharedValue(
+        -NEXT_BUTTON_HORIZONTAL_PADDING,
+    );
+
+    const nextButtonAnimatedStyles = useAnimatedStyle(() => ({
+        width: withTiming(nextButtonWidth.value, { duration: 300 }),
+    }));
+
+    const nextButtonArrowStyles = useAnimatedStyle(() => ({
+        transform: [
+            {
+                translateX: withTiming(nextButtonArrowTranslateX.value, {
+                    duration: 300,
+                }),
+            },
+        ],
+    }));
+
+    // Animations on current step change
+    useEffect(() => {
+        if (currentStep.name === "result") {
+            nextButtonWidth.value = NEXT_BUTTON_WIDTH_LARGE;
+            // Reset the translate x to the right agin
+            nextButtonArrowTranslateX.value = -NEXT_BUTTON_HORIZONTAL_PADDING;
+        } else {
+            nextButtonWidth.value = NEXT_BUTTON_WIDTH_SMALL;
+
+            nextButtonArrowTranslateX.value = calulateArrowXPosition("small");
+        }
+    }, [currentStep]);
+
+    if (currentStep.name === "saved") {
+        return (
+            <AnimatedTouchable
+                onPress={resetForm}
                 style={[styles.nextButton, nextButtonAnimatedStyles]}
             >
-                <View>
-                    {currentStep.name === "result" ? (
-                        <Animated.View
-                            entering={FadeInLeft}
-                            exiting={FadeOut.duration(100)}
-                        >
-                            <GroteskText style={{ fontSize: 12 }}>
-                                Save Journey?
-                            </GroteskText>
-                        </Animated.View>
-                    ) : null}
-                </View>
+                <Animated.View
+                    entering={FadeInLeft}
+                    exiting={FadeOut.duration(100)}
+                    style={{
+                        width: "100%",
+                    }}
+                >
+                    <GroteskText
+                        style={{
+                            fontSize: 12,
+                            lineHeight: 30,
+                            textAlign: "center",
+                        }}
+                    >
+                        Start again?
+                    </GroteskText>
+                </Animated.View>
+            </AnimatedTouchable>
+        );
+    }
+
+    return (
+        <AnimatedTouchable
+            onPress={onPress}
+            style={[styles.nextButton, nextButtonAnimatedStyles]}
+        >
+            <View>
+                {currentStep.name === "result" ? (
+                    <Animated.View
+                        entering={FadeInLeft}
+                        exiting={FadeOut.duration(100)}
+                    >
+                        <GroteskText style={{ fontSize: 12 }}>
+                            Save Journey?
+                        </GroteskText>
+                    </Animated.View>
+                ) : null}
+            </View>
+
+            {currentStep.name !== "saved" ? (
                 <AnimatedHeroIcon
                     icon="arrow-long-right"
                     color="white"
@@ -175,11 +237,10 @@ export default function CalculatorWizardFooter({
                         nextButtonArrowStyles,
                     ]}
                 />
-            </AnimatedTouchable>
-        </View>
+            ) : null}
+        </AnimatedTouchable>
     );
 }
-
 const styles = StyleSheet.create({
     screenWrapper: {
         width: "100%",

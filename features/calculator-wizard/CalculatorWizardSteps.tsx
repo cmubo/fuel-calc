@@ -1,13 +1,15 @@
-import { GroteskTextMedium } from "@/components/StyledText";
+import { GroteskTextBold, GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import { twColors } from "@/constants/Colors";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
+import { Link } from "expo-router";
 import { useEffect, useRef } from "react";
 import { FieldErrors, UseFormReturn } from "react-hook-form";
 import {
     Keyboard,
     TextInput as RNTextInput,
     StyleSheet,
+    TouchableOpacity,
     useWindowDimensions,
     View,
 } from "react-native";
@@ -28,12 +30,14 @@ export default function CalculatorWizardSteps({
     cost,
     splitCost,
     form,
+    savedJourneyId,
 }: {
     index: number;
     errors: FieldErrors<JourneyRawFormValues>;
     cost: string;
     splitCost: string;
     form: UseFormReturn<JourneyRawFormValues, any, JourneyRawFormValues>;
+    savedJourneyId: number | null;
 }) {
     const currentStep = STEPS[index.toString()];
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
@@ -163,6 +167,31 @@ export default function CalculatorWizardSteps({
             </View>
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <FinalCostStep cost={cost} splitCost={splitCost} />
+            </View>
+
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+                <View>
+                    <GroteskTextBold className="text-white text-3xl">
+                        Success!
+                    </GroteskTextBold>
+                    <GroteskTextMedium className="text-white text-xl">
+                        Your journey has been saved!
+                    </GroteskTextMedium>
+
+                    <TouchableOpacity className="mt-8">
+                        <Link
+                            href={
+                                savedJourneyId
+                                    ? `/(modals)/editJourney/${savedJourneyId}`
+                                    : "/(tabs)/journeys"
+                            }
+                        >
+                            <GroteskTextMedium className="text-sky-200 text-xl">
+                                Go to your journey?
+                            </GroteskTextMedium>
+                        </Link>
+                    </TouchableOpacity>
+                </View>
             </View>
         </Animated.View>
     );

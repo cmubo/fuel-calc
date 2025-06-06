@@ -7,6 +7,7 @@ import Animated, {
     FadeOutLeft,
     FadeOutUp,
 } from "react-native-reanimated";
+import { STEPS } from "./constants";
 import { PreviousFormValueType } from "./types";
 
 export default function CalculatorWizardHeader({
@@ -18,6 +19,8 @@ export default function CalculatorWizardHeader({
     previousValues: PreviousFormValueType[];
     index: number;
 }) {
+    const currentStep = STEPS[index.toString()];
+
     return (
         <View style={styles.headerContainer}>
             {index === 0 ? (
@@ -32,7 +35,7 @@ export default function CalculatorWizardHeader({
                 </Animated.View>
             ) : null}
 
-            {index !== 0 ? (
+            {index !== 0 && currentStep.name !== "saved" ? (
                 <Animated.View entering={FadeInRight} exiting={FadeOutLeft}>
                     <TouchableOpacity
                         onPress={() => handleNavigation("back")}

@@ -6,24 +6,38 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CalculatorWizardFooter from "./CalculatorWizardFooter";
 import CalculatorWizardHeader from "./CalculatorWizardHeader";
 import CalculatorWizardSteps from "./CalculatorWizardSteps";
+import { STEPS } from "./constants";
 import { PreviousFormValueType } from "./types";
 
 export default function CalculatorWizard() {
     const insets = useSafeAreaInsets();
-
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [savedJourneyId, setSavedJourneyId] = useState<number | null>(null);
+    const [currentIndex, setCurrentIndex] = useState(5);
     const [previousValues, setPreviousValues] = useState<
         PreviousFormValueType[]
     >([]);
 
-    const { splitCost, cost, errors, form } = useJourneyForm({});
+    const { splitCost, cost, errors, form, onSubmit } = useJourneyForm({
+        onSuccessfulSubmitCallback: (result) => {
+            setCurrentIndex(5);
+            setSavedJourneyId(result.id);
+            setPreviousValues([]);
+        },
+    });
 
     const handleNavigation = async (direction: "forward" | "back") => {
-        if (direction === "forward") {
+        if (
+            direction === "forward" &&
+            currentIndex !== Object.keys(STEPS).length - 1
+        ) {
             setCurrentIndex((prevIndex) => prevIndex + 1);
         } else if (direction === "back" && currentIndex > 0) {
             setPreviousValues((prev) => {
-                prev.pop();
+                const currentStep = STEPS[currentIndex.toString()];
+
+                if (currentStep.field !== null) {
+                    prev.pop();
+                }
                 return prev;
             });
             setCurrentIndex((prevIndex) => prevIndex - 1);
@@ -49,6 +63,7 @@ export default function CalculatorWizard() {
                         cost={cost}
                         splitCost={splitCost}
                         form={form}
+                        savedJourneyId={savedJourneyId}
                     />
                 </View>
 
@@ -58,6 +73,8 @@ export default function CalculatorWizard() {
                     form={form}
                     handleNavigation={handleNavigation}
                     setPreviousValues={setPreviousValues}
+                    onSubmit={onSubmit}
+                    setSavedJourneyId={setSavedJourneyId}
                 />
             </KeyboardAvoidingView>
         </FormProvider>

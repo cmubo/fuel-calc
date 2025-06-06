@@ -54,7 +54,7 @@ export default function JourneyForm({
                         className={reusableStyles.textInput}
                         autoCorrect={false}
                         placeholder="35"
-                        keyboardType="number-pad"
+                        keyboardType="decimal-pad"
                     />
                 </InputWrapper>
 
@@ -68,7 +68,7 @@ export default function JourneyForm({
                             className={reusableStyles.textInput}
                             autoCorrect={false}
                             placeholder="125.50"
-                            keyboardType="number-pad"
+                            keyboardType="decimal-pad"
                         />
 
                         <SelectFuelPriceModal
@@ -88,7 +88,7 @@ export default function JourneyForm({
                         className={reusableStyles.textInput}
                         autoCorrect={false}
                         placeholder="100"
-                        keyboardType="number-pad"
+                        keyboardType="decimal-pad"
                     />
                 </InputWrapper>
 
