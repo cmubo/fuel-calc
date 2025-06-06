@@ -17,6 +17,6 @@ export const journeySchema = z.object({
     title: z.string(),
     mpg: stringNumberUnion("Miles per gallon"),
     pricePerLitre: stringNumberUnion("Price per litre"),
-    distanceInMiles: stringNumberUnion("Distance in miles"),
+    distanceInMiles: stringNumberUnion("Distance"),
     splitBetween: stringNumberUnion("Split between"),
 });

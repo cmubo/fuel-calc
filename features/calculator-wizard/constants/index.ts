@@ -23,6 +23,11 @@ export const STEPS: StepsType = {
         field: null,
     },
     5: {
+        name: "title",
+        label: "Title",
+        field: "title",
+    },
+    6: {
         name: "saved",
         label: null,
         field: null,

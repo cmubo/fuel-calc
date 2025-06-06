@@ -57,7 +57,7 @@ export default function CalculatorWizardFooter({
 
     const onNavigation = useCallback(async () => {
         // Submit the form
-        if (currentStep.name === "result") {
+        if (currentStep.name === "title") {
             await form.handleSubmit(onSubmit)();
 
             return;
@@ -143,7 +143,9 @@ export default function CalculatorWizardFooter({
                 onPress={onNavigation}
                 index={index}
                 resetForm={resetForm}
-            />
+            >
+                <NextButtonContent index={index} />
+            </NextButton>
         </View>
     );
 }
@@ -152,18 +154,40 @@ interface NextButtonProps {
     onPress: () => void;
     resetForm: () => void;
     index: number;
+    children: React.ReactNode;
 }
 
-function NextButton({ onPress, index, resetForm }: NextButtonProps) {
+function NextButton({ onPress, index, resetForm, children }: NextButtonProps) {
     const currentStep = STEPS[index.toString()];
     const nextButtonWidth = useSharedValue(126);
-    const nextButtonArrowTranslateX = useSharedValue(
-        -NEXT_BUTTON_HORIZONTAL_PADDING,
-    );
 
     const nextButtonAnimatedStyles = useAnimatedStyle(() => ({
         width: withTiming(nextButtonWidth.value, { duration: 300 }),
     }));
+
+    useEffect(() => {
+        if (currentStep.name === "result") {
+            nextButtonWidth.value = NEXT_BUTTON_WIDTH_LARGE;
+        } else {
+            nextButtonWidth.value = NEXT_BUTTON_WIDTH_SMALL;
+        }
+    }, [currentStep]);
+
+    return (
+        <AnimatedTouchable
+            onPress={currentStep.name === "saved" ? resetForm : onPress}
+            style={[styles.nextButton, nextButtonAnimatedStyles]}
+        >
+            {children}
+        </AnimatedTouchable>
+    );
+}
+
+function NextButtonContent({ index }: { index: number }) {
+    const currentStep = STEPS[index.toString()];
+    const nextButtonArrowTranslateX = useSharedValue(
+        -NEXT_BUTTON_HORIZONTAL_PADDING,
+    );
 
     const nextButtonArrowStyles = useAnimatedStyle(() => ({
         transform: [
@@ -175,58 +199,70 @@ function NextButton({ onPress, index, resetForm }: NextButtonProps) {
         ],
     }));
 
-    // Animations on current step change
     useEffect(() => {
         if (currentStep.name === "result") {
-            nextButtonWidth.value = NEXT_BUTTON_WIDTH_LARGE;
             // Reset the translate x to the right agin
             nextButtonArrowTranslateX.value = -NEXT_BUTTON_HORIZONTAL_PADDING;
         } else {
-            nextButtonWidth.value = NEXT_BUTTON_WIDTH_SMALL;
-
             nextButtonArrowTranslateX.value = calulateArrowXPosition("small");
         }
     }, [currentStep]);
 
     if (currentStep.name === "saved") {
         return (
-            <AnimatedTouchable
-                onPress={resetForm}
-                style={[styles.nextButton, nextButtonAnimatedStyles]}
+            <Animated.View
+                entering={FadeInLeft}
+                exiting={FadeOut.duration(100)}
+                style={{
+                    width: "100%",
+                }}
             >
-                <Animated.View
-                    entering={FadeInLeft}
-                    exiting={FadeOut.duration(100)}
-                    style={{
-                        width: "100%",
-                    }}
-                >
-                    <GroteskText
-                        style={{
-                            fontSize: 12,
-                            lineHeight: 30,
+                <GroteskText
+                    style={[
+                        styles.nextButtonText,
+                        {
                             textAlign: "center",
-                        }}
-                    >
-                        Start again?
-                    </GroteskText>
-                </Animated.View>
-            </AnimatedTouchable>
+                        },
+                    ]}
+                >
+                    Start again?
+                </GroteskText>
+            </Animated.View>
+        );
+    }
+
+    if (currentStep.name === "title") {
+        return (
+            <Animated.View
+                entering={FadeInLeft}
+                exiting={FadeOut.duration(100)}
+                style={{
+                    width: "100%",
+                }}
+            >
+                <GroteskText
+                    style={[
+                        styles.nextButtonText,
+                        {
+                            textAlign: "center",
+                        },
+                    ]}
+                >
+                    Save
+                </GroteskText>
+            </Animated.View>
         );
     }
 
     return (
-        <AnimatedTouchable
-            onPress={onPress}
-            style={[styles.nextButton, nextButtonAnimatedStyles]}
-        >
+        <>
             <View>
                 {currentStep.name === "result" ? (
                     <Animated.View
                         entering={FadeInLeft}
                         exiting={FadeOut.duration(100)}
                     >
-                        <GroteskText style={{ fontSize: 12 }}>
+                        <GroteskText style={styles.nextButtonText}>
                             Save Journey?
                         </GroteskText>
                     </Animated.View>
@@ -244,9 +280,10 @@ function NextButton({ onPress, index, resetForm }: NextButtonProps) {
                     ]}
                 />
             ) : null}
-        </AnimatedTouchable>
+        </>
     );
 }
+
 const styles = StyleSheet.create({
     screenWrapper: {
         width: "100%",
@@ -278,5 +315,9 @@ const styles = StyleSheet.create({
             height: 2,
         },
         flexDirection: "row",
+    },
+    nextButtonText: {
+        fontSize: 12,
+        lineHeight: 30,
     },
 });
