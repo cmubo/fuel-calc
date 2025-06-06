@@ -22,6 +22,13 @@
       "when": 1747407058057,
       "tag": "0002_tricky_jack_flag",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1749213181828,
+      "tag": "0003_fair_machine_man",
+      "breakpoints": true
     }
   ]
 }

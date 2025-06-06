@@ -47,6 +47,7 @@ export default function CalculatorWizardSteps({
     const pricePerLitreRef = useRef<RNTextInput>(null);
     const distanceInMilesRef = useRef<RNTextInput>(null);
     const splitBetweenRef = useRef<RNTextInput>(null);
+    const titleRef = useRef<RNTextInput>(null);
 
     const sliderTranslateX = useSharedValue(0);
 
@@ -165,8 +166,27 @@ export default function CalculatorWizardSteps({
                     />
                 </InputWrapper>
             </View>
+
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <FinalCostStep cost={cost} splitCost={splitCost} />
+            </View>
+
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+                <InputWrapper
+                    label="Title"
+                    subLabel="(Name your journey)"
+                    errors={errors.title}
+                >
+                    <TextInput
+                        name="title"
+                        style={styles.textInput}
+                        autoCorrect={false}
+                        placeholder="Home to Windermere and back"
+                        key="title"
+                        placeholderTextColor={twColors.slate[600]}
+                        ref={titleRef}
+                    />
+                </InputWrapper>
             </View>
 
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
@@ -186,7 +206,10 @@ export default function CalculatorWizardSteps({
                                     : "/(tabs)/journeys"
                             }
                         >
-                            <GroteskTextMedium className="text-sky-200 text-xl">
+                            <GroteskTextMedium
+                                className="text-xl"
+                                style={{ color: twColors.sky["200"] }}
+                            >
                                 Go to your journey?
                             </GroteskTextMedium>
                         </Link>

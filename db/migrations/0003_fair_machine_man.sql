@@ -1,0 +1,1 @@
+ALTER TABLE `journeys` ADD `title` text NOT NULL;
