@@ -25,6 +25,7 @@ export type JourneyRawFormValues = Omit<
 
 export interface useJourneyFormProps {
     journey?: Partial<typeof fuelPricesTable.$inferInsert> & {
+        title: string;
         id: number;
         mpg: number;
         price: number;
@@ -52,12 +53,14 @@ export default function useJourneyForm({
         resolver: zodResolver(journeySchema),
         defaultValues: journey
             ? {
+                  title: journey.title,
                   mpg: String(journey.mpg),
                   pricePerLitre: String(journey.pricePerLitre),
                   distanceInMiles: String(journey.distanceInMiles),
                   splitBetween: String(journey.splitBetween),
               }
             : {
+                  title: "",
                   mpg: "",
                   pricePerLitre: defaultFuelPrice
                       ? String(defaultFuelPrice)

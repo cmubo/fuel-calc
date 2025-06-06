@@ -13,6 +13,7 @@ import SelectFuelPriceModal from "./SelectFuelPriceModal";
 
 interface JourneyFormProps {
     journey?: Partial<typeof fuelPricesTable.$inferInsert> & {
+        title: string;
         id: number;
         mpg: number;
         price: number;
@@ -48,6 +49,15 @@ export default function JourneyForm({
     return (
         <View className="flex-1 gap-4">
             <FormProvider {...form}>
+                <InputWrapper label="Title" errors={errors.title}>
+                    <TextInput
+                        name="title"
+                        className={reusableStyles.textInput}
+                        autoCorrect={false}
+                        placeholder="Journey to Mordor"
+                    />
+                </InputWrapper>
+
                 <InputWrapper label="Miles Per Gallon" errors={errors.mpg}>
                     <TextInput
                         name="mpg"

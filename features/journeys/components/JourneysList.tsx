@@ -5,6 +5,7 @@ import {
 } from "@/components/StyledText";
 import { twColors } from "@/constants/Colors";
 import { GLOBAL_BOTTOM_PADDING, GLOBAL_TOP_PADDING } from "@/constants/layout";
+import reusableStyles from "@/constants/reusable-styles";
 import { journeysTable } from "@/db/schema";
 import { deleteJourney, getAllJourneys } from "@/features/journeys/db";
 import { DecimalPrecision2 } from "@/helpers/math";
@@ -64,13 +65,19 @@ export default function JourneysList() {
             renderItem={({ item }) => <JourneyItem {...item} />}
             keyExtractor={(item) => item.id.toString()}
             ListEmptyComponent={
-                <View className="items-center py-8">
+                <View className="items-center py-8 gap-12 h-full">
                     <GroteskTextSemiBold className="text-center text-white text-2xl">
                         No journeys saved
                     </GroteskTextSemiBold>
-                    <Link href="/(tabs)" className="mt-8">
-                        <GroteskTextSemiBold className="text-sky-500 font-medium text-lg">
-                            Create new journey
+                    <Link
+                        href="/(tabs)"
+                        className={reusableStyles.btnOutlineSky}
+                    >
+                        <GroteskTextSemiBold
+                            className="font-medium text-lg"
+                            style={{ color: twColors.sky["200"] }}
+                        >
+                            Create new journey?
                         </GroteskTextSemiBold>
                     </Link>
                 </View>
