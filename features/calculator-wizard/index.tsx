@@ -23,7 +23,7 @@ export default function CalculatorWizard({
 
     const { splitCost, cost, errors, form, onSubmit } = useJourneyForm({
         onSuccessfulSubmitCallback: (result) => {
-            setCurrentIndex(6);
+            setCurrentIndex(Object.keys(STEPS).length - 1);
             setSavedJourneyId(result.id);
             setPreviousValues([]);
         },

@@ -206,7 +206,10 @@ export default function CalculatorWizardSteps({
                                     : "/(tabs)/journeys"
                             }
                         >
-                            <GroteskTextMedium className="text-sky-200 text-xl">
+                            <GroteskTextMedium
+                                className="text-xl"
+                                style={{ color: twColors.sky["200"] }}
+                            >
                                 Go to your journey?
                             </GroteskTextMedium>
                         </Link>

@@ -95,6 +95,7 @@ export default function JourneysList() {
 
 function JourneyItem({
     id,
+    title,
     distanceInMiles,
     mpg,
     price,
@@ -120,6 +121,7 @@ function JourneyItem({
                 <GroteskTextMedium className="text-white font-bold text-2xl">
                     £{price}
                 </GroteskTextMedium>
+
                 {splitBetween > 1 ? (
                     <GroteskTextMedium className="text-slate-400">
                         {splitBetween} people, cost: £
@@ -128,13 +130,23 @@ function JourneyItem({
                 ) : null}
 
                 <GroteskTextMedium className="text-slate-400">
-                    Distance: {distanceInMiles} miles
+                    Title: {title}
                 </GroteskTextMedium>
+
                 <GroteskTextMedium className="text-slate-400">
-                    MPG: {mpg}
+                    {distanceInMiles} miles travelled
                 </GroteskTextMedium>
+
                 <GroteskTextMedium className="text-slate-400">
-                    Price per litre: {pricePerLitre}p
+                    {mpg} MPG
+                </GroteskTextMedium>
+
+                <GroteskTextMedium className="text-slate-400">
+                    {pricePerLitre}p per litre
+                </GroteskTextMedium>
+
+                <GroteskTextMedium className="text-slate-400">
+                    Date recorded: {new Date(createdAt).toLocaleDateString()}
                 </GroteskTextMedium>
             </View>
 
