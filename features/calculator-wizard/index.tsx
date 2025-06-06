@@ -9,10 +9,14 @@ import CalculatorWizardSteps from "./CalculatorWizardSteps";
 import { STEPS } from "./constants";
 import { PreviousFormValueType } from "./types";
 
-export default function CalculatorWizard() {
+export default function CalculatorWizard({
+    defaultFuelPrice,
+}: {
+    defaultFuelPrice: number;
+}) {
     const insets = useSafeAreaInsets();
     const [savedJourneyId, setSavedJourneyId] = useState<number | null>(null);
-    const [currentIndex, setCurrentIndex] = useState(5);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [previousValues, setPreviousValues] = useState<
         PreviousFormValueType[]
     >([]);
@@ -23,6 +27,7 @@ export default function CalculatorWizard() {
             setSavedJourneyId(result.id);
             setPreviousValues([]);
         },
+        defaultFuelPrice,
     });
 
     const handleNavigation = async (direction: "forward" | "back") => {

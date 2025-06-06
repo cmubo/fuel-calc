@@ -3,6 +3,7 @@ import HeroIcon from "@/components/icons/HeroIcon";
 import { GroteskText } from "@/components/StyledText";
 import { twColors } from "@/constants/Colors";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
+import { useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
@@ -52,6 +53,7 @@ export default function CalculatorWizardFooter({
     onSubmit: (values: JourneyRawFormValues) => Promise<void>;
 }) {
     const currentStep = STEPS[index.toString()];
+    const queryClient = useQueryClient();
 
     const onNavigation = useCallback(async () => {
         // Submit the form
@@ -113,12 +115,16 @@ export default function CalculatorWizardFooter({
         setPreviousValues([]);
         setIndex(0);
         setSavedJourneyId(null);
+
+        queryClient.invalidateQueries({
+            queryKey: ["defaultFuelPrice"],
+        });
     }, [form, setPreviousValues, setIndex, setSavedJourneyId]);
 
     return (
         <View style={styles.footerContainer}>
             <View>
-                {currentStep.name === "result" ? (
+                {index !== 0 && currentStep.name !== "saved" ? (
                     <AnimatedConfirmationButton
                         entering={FadeIn}
                         exiting={FadeOut}
