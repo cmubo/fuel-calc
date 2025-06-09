@@ -20,5 +20,5 @@ export default function CalculatorScreen() {
         return <QueryLoadingAndErrorState {...{ isPending, isError }} />;
     }
 
-    return <CalculatorWizard defaultFuelPrice={defaultFuelPrice[0].price} />;
+    return <CalculatorWizard defaultFuelPrice={defaultFuelPrice[0]?.price} />;
 }
