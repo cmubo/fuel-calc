@@ -9,7 +9,7 @@ import "./global.css";
 
 import Providers from "@/components/providers/Providers";
 import { twColors } from "@/constants/Colors";
-import { StatusBar } from "react-native";
+import { SystemBars } from "react-native-edge-to-edge";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -59,10 +59,7 @@ export default function RootLayout() {
 function RootLayoutNav() {
     return (
         <>
-            <StatusBar
-                translucent={true}
-                backgroundColor={twColors.slate[900]}
-            />
+            <SystemBars style="light" />
 
             <Providers>
                 <Stack
