@@ -5,10 +5,12 @@ export default function SettingsRootLayout() {
     return (
         <Stack
             screenOptions={{
+                contentStyle: { backgroundColor: twColors.slate[900] },
                 headerStyle: {
                     backgroundColor: twColors.slate[900],
                 },
                 headerTintColor: twColors.white,
+                animation: "fade_from_bottom",
             }}
         >
             <Stack.Screen

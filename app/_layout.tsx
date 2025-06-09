@@ -2,6 +2,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
 
 import "./global.css";
@@ -19,6 +20,9 @@ export const unstable_settings = {
     // Ensure that reloading on `/modal` keeps a back button present.
     initialRouteName: "(tabs)",
 };
+
+// Set the app background colour
+SystemUI.setBackgroundColorAsync("#0f172a");
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -54,19 +58,28 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
     return (
-        <Providers>
-            <StatusBar hidden={true} />
-            <Stack
-                screenOptions={{
-                    contentStyle: { backgroundColor: twColors.slate[900] },
-                }}
-            >
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen
-                    name="(modals)"
-                    options={{ presentation: "modal", headerShown: false }}
-                />
-            </Stack>
-        </Providers>
+        <>
+            <StatusBar
+                translucent={true}
+                backgroundColor={twColors.slate[900]}
+            />
+
+            <Providers>
+                <Stack
+                    screenOptions={{
+                        contentStyle: { backgroundColor: twColors.slate[900] },
+                    }}
+                >
+                    <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="(modals)"
+                        options={{ presentation: "modal", headerShown: false }}
+                    />
+                </Stack>
+            </Providers>
+        </>
     );
 }

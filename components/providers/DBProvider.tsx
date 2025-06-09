@@ -1,10 +1,10 @@
+import { twColors } from "@/constants/Colors";
 import { DATABASE_NAME, db, expoDb } from "@/db/db";
 import migrations from "@/db/migrations/migrations";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { SQLiteProvider } from "expo-sqlite";
 import { Suspense } from "react";
-
 import { ActivityIndicator, View } from "react-native";
 import { GroteskTextMedium } from "../StyledText";
 
@@ -18,7 +18,7 @@ export default function DBProvider({
 
     if (error) {
         return (
-            <View>
+            <View style={{ backgroundColor: twColors.slate["900"], flex: 1 }}>
                 <GroteskTextMedium>
                     Migration error: {error.message}
                 </GroteskTextMedium>
@@ -28,7 +28,7 @@ export default function DBProvider({
 
     if (!success) {
         return (
-            <View>
+            <View style={{ backgroundColor: twColors.slate["900"], flex: 1 }}>
                 <GroteskTextMedium>
                     Migration is in progress...
                 </GroteskTextMedium>
