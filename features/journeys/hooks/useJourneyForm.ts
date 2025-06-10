@@ -21,6 +21,7 @@ export type JourneyRawFormValues = Omit<
     pricePerLitre: string | number;
     distanceInMiles: string | number;
     splitBetween: string | number;
+    dateOfJourney: string;
 };
 
 export interface useJourneyFormProps {
@@ -32,6 +33,7 @@ export interface useJourneyFormProps {
         pricePerLitre: number;
         distanceInMiles: number;
         splitBetween: number;
+        dateOfJourney: string;
     };
     onSuccessfulSubmitCallback?: (
         result: typeof journeysTable.$inferSelect,
@@ -58,6 +60,9 @@ export default function useJourneyForm({
                   pricePerLitre: String(journey.pricePerLitre),
                   distanceInMiles: String(journey.distanceInMiles),
                   splitBetween: String(journey.splitBetween),
+                  dateOfJourney: new Date(journey.dateOfJourney)
+                      .toISOString()
+                      .split("T")[0],
               }
             : {
                   title: "",
@@ -67,6 +72,7 @@ export default function useJourneyForm({
                       : "",
                   distanceInMiles: "",
                   splitBetween: "1",
+                  dateOfJourney: new Date().toISOString().split("T")[0],
               },
     });
 

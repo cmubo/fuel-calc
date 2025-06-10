@@ -97,6 +97,7 @@ export default function CalculatorWizardFooter({
                                     label: currentStep.label!,
                                     name: currentStep.field!,
                                     value: fieldValue as string,
+                                    formatValue: currentStep.formatValue,
                                 },
                             ];
                         }

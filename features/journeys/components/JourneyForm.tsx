@@ -1,4 +1,5 @@
 import ConfirmationButton from "@/components/ConfirmationButton";
+import DatePicker from "@/components/DatePicker";
 import HeroIcon from "@/components/icons/HeroIcon";
 import InputWrapper from "@/components/InputWrapper";
 import { GroteskTextMedium } from "@/components/StyledText";
@@ -6,6 +7,7 @@ import TextInput from "@/components/TextInput";
 import { twColors } from "@/constants/Colors";
 import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
+import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import { TouchableOpacity, View } from "react-native";
 import useJourneyForm from "../hooks/useJourneyForm";
@@ -20,6 +22,7 @@ interface JourneyFormProps {
         pricePerLitre: number;
         distanceInMiles: number;
         splitBetween: number;
+        dateOfJourney: string;
     };
     onSuccessfulSubmitCallback?: () => void;
     defaultFuelPrice?: number | null;
@@ -30,6 +33,8 @@ export default function JourneyForm({
     onSuccessfulSubmitCallback,
     defaultFuelPrice,
 }: JourneyFormProps) {
+    const [datepickerModalOpen, setDatepickerModalOpen] = useState(false);
+
     const {
         splitCost,
         cost,
@@ -56,6 +61,28 @@ export default function JourneyForm({
                         autoCorrect={false}
                         placeholder="Journey to Mordor"
                     />
+                </InputWrapper>
+                <InputWrapper
+                    label="Date of journey"
+                    errors={errors.dateOfJourney}
+                >
+                    <TextInput
+                        name="dateOfJourney"
+                        className={reusableStyles.textInput}
+                        autoCorrect={false}
+                        editable={false}
+                        onPress={() => {
+                            setDatepickerModalOpen(true);
+                        }}
+                    />
+                    <View>
+                        <DatePicker
+                            name="dateOfJourney"
+                            modal
+                            open={datepickerModalOpen}
+                            setOpen={setDatepickerModalOpen}
+                        />
+                    </View>
                 </InputWrapper>
 
                 <InputWrapper label="Miles Per Gallon" errors={errors.mpg}>

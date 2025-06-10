@@ -99,9 +99,9 @@ function JourneyItem({
     distanceInMiles,
     mpg,
     price,
-    createdAt,
     splitBetween,
     pricePerLitre,
+    dateOfJourney,
 }: typeof journeysTable.$inferSelect) {
     const queryClient = useQueryClient();
     const sqliteContext = useSQLiteContext();
@@ -146,7 +146,8 @@ function JourneyItem({
                 </GroteskTextMedium>
 
                 <GroteskTextMedium className="text-slate-400">
-                    Date recorded: {new Date(createdAt).toLocaleDateString()}
+                    Date of journey:{" "}
+                    {new Date(dateOfJourney).toLocaleDateString()}
                 </GroteskTextMedium>
             </View>
 

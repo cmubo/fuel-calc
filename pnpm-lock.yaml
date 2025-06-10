@@ -80,6 +80,9 @@ importers:
       react-native:
         specifier: 0.79.3
         version: 0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0)
+      react-native-date-picker:
+        specifier: 5.0.12
+        version: 5.0.12(react-native@0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       react-native-edge-to-edge:
         specifier: ^1.6.1
         version: 1.6.1(react-native@0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
@@ -3693,6 +3696,12 @@ packages:
         optional: true
       react-native-svg:
         optional: true
+
+  react-native-date-picker@5.0.12:
+    resolution: {integrity: sha512-R/mUnCKhcuxbhKPFwYdBQCxQt9HHLqpM4ruRUqlcBjiUZ3N2wdnwOMyc888Ps8qp8e7v29PrDHtUlG8LPuFn9w==}
+    peerDependencies:
+      react: '>= 17.0.1'
+      react-native: '>= 0.64.3'
 
   react-native-edge-to-edge@1.6.0:
     resolution: {integrity: sha512-2WCNdE3Qd6Fwg9+4BpbATUxCLcouF6YRY7K+J36KJ4l3y+tWN6XCqAC4DuoGblAAbb2sLkhEDp4FOlbOIot2Og==}
@@ -8706,6 +8715,11 @@ snapshots:
       react-native-svg: 15.12.0(react-native@0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
     transitivePeerDependencies:
       - supports-color
+
+  react-native-date-picker@5.0.12(react-native@0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-native: 0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0)
 
   react-native-edge-to-edge@1.6.0(react-native@0.79.3(@babel/core@7.27.1)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
     dependencies:

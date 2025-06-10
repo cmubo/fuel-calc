@@ -25,7 +25,6 @@ export default function ModalsLayout() {
                         contentStyle: {
                             backgroundColor: twColors.slate["900"],
                         },
-                        animation: "slide_from_bottom",
                     }}
                 >
                     <Stack.Screen

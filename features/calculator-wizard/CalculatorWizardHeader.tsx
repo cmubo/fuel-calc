@@ -58,7 +58,10 @@ export default function CalculatorWizardHeader({
                         exiting={FadeOutUp}
                     >
                         <GroteskText style={styles.previousResultsText}>
-                            {prev.label}: {prev.value}
+                            {prev.label}:{" "}
+                            {prev.formatValue
+                                ? prev.formatValue(prev.value)
+                                : prev.value}
                         </GroteskText>
                     </Animated.View>
                 ))}
