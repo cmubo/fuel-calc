@@ -20,6 +20,7 @@ interface JourneyFormProps {
         pricePerLitre: number;
         distanceInMiles: number;
         splitBetween: number;
+        dateOfJourney: string;
     };
     onSuccessfulSubmitCallback?: () => void;
     defaultFuelPrice?: number | null;

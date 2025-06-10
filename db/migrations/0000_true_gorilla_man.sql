@@ -16,5 +16,5 @@ CREATE TABLE `journeys` (
 	`split_between` real NOT NULL,
 	`price` real NOT NULL,
 	`created_at` text DEFAULT (datetime('now', 'localtime')) NOT NULL,
-	`date_of_journey` text DEFAULT (datetime('now', 'localtime')) NOT NULL
+	`date_of_journey` text DEFAULT (date('now', 'localtime')) NOT NULL
 );

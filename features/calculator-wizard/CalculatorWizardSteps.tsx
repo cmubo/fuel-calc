@@ -1,3 +1,4 @@
+import DateAdded from "@/components/DatePicker";
 import { GroteskTextBold, GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import { twColors } from "@/constants/Colors";
@@ -169,6 +170,15 @@ export default function CalculatorWizardSteps({
 
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
                 <FinalCostStep cost={cost} splitCost={splitCost} />
+            </View>
+
+            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+                <InputWrapper
+                    label="Date of your journey"
+                    errors={errors.dateOfJourney}
+                >
+                    <DateAdded name="dateOfJourney" />
+                </InputWrapper>
             </View>
 
             <View style={{ width: SCREEN_WIDTH, padding: 24 }}>

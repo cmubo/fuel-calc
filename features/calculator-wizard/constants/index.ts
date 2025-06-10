@@ -23,11 +23,18 @@ export const STEPS: StepsType = {
         field: null,
     },
     5: {
+        name: "dateOfJourney",
+        label: "Date of Journey",
+        field: "dateOfJourney",
+        formatValue: (value: string) =>
+            new Date(value).toLocaleDateString("en-GB"),
+    },
+    6: {
         name: "title",
         label: "Title",
         field: "title",
     },
-    6: {
+    7: {
         name: "saved",
         label: null,
         field: null,

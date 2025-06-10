@@ -4,6 +4,7 @@ export type PreviousFormValueType = {
     name: string;
     label: string;
     value: string;
+    formatValue?: (value: string) => string;
 };
 
 export type StepsType = Record<
@@ -12,5 +13,6 @@ export type StepsType = Record<
         name: string;
         label: string | null;
         field: keyof JourneyRawFormValues | null;
+        formatValue?: (value: string) => string;
     }
 >;

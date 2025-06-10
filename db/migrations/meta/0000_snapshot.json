@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "482fd8e7-354b-41b2-b223-d4e86f6e4d9e",
+  "id": "0ed862f9-d266-414b-90da-d84dec5a2eab",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "fuel_prices": {
@@ -125,7 +125,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(datetime('now', 'localtime'))"
+          "default": "(date('now', 'localtime'))"
         }
       },
       "indexes": {},

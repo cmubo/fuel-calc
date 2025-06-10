@@ -19,4 +19,5 @@ export const journeySchema = z.object({
     pricePerLitre: stringNumberUnion("Price per litre"),
     distanceInMiles: stringNumberUnion("Distance"),
     splitBetween: stringNumberUnion("Split between"),
+    dateOfJourney: z.string(),
 });

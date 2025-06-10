@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const CURRENT_TIMESTAMP = sql`(datetime('now', 'localtime'))`;
+export const CURRENT_DATE = sql`(date('now', 'localtime'))`;
 export const incrementingId = integer("id").primaryKey({ autoIncrement: true });
 export const createdAt = text("created_at")
     .notNull()
