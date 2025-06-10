@@ -1,3 +1,11 @@
+# Fuel Calculator
+
+This app is literally just what it says, you put in your MPG, price per litre, distance and how many people you want to split the cost between and it will give you a figure.
+
+You can also save your past journeys to keep track of what you're spending.
+
+There are no accounts, no ads, no analytics, no external APIs, no internet access needed at all. It's just an app and a database stored locally.
+
 # Locally creating builds
 
 ## Android
