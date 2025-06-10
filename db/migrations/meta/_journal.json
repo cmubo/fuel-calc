@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1747310137001,
-      "tag": "0000_whole_whizzer",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1747323392675,
-      "tag": "0001_cynical_ben_urich",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1747407058057,
-      "tag": "0002_tricky_jack_flag",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1749213181828,
-      "tag": "0003_fair_machine_man",
+      "when": 1749561091822,
+      "tag": "0000_strange_famine",
       "breakpoints": true
     }
   ]

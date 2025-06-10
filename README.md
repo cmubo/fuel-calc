@@ -57,3 +57,25 @@ Instructions can also be found here: https://docs.expo.dev/guides/local-app-prod
 5. From inside the android folder, run the `./gradlew app:bundleRelease` command to generate a release.
 
 6. Here are instructions for google play submission: https://github.com/expo/fyi/blob/main/first-android-submission.md
+
+# Viewing the local database
+
+This will work smoothly on IOS but android you need to download the database and it isnt really worth the extra effort so instructions are only for IOS.
+
+We use drizzle on this project, which should make seeing the data easier as the drizzle studio exists. Now the drizzle studio doesnt actually work... https://github.com/drizzle-team/drizzle-studio-expo/issues/7 and https://github.com/drizzle-team/drizzle-studio-expo/issues/12
+
+Instead we can use an alternative like DBeaver, point it directly to the local sqlite file in the emulator and see the data that way. To find the path to the file, place this component somewhere where you can read the output.
+
+```
+import SQLPath from "@/components/SQLPath";
+
+---
+
+<SQLPath />
+```
+
+This will give you the path inside the emulator/device and then you prepend your local path to the emulator, mine would be:
+
+```
+/Users/${USER_NAME}/Library/Developer/CoreSimulator/Devices/619313DB-7EF6-444D-A717-C026C1EFC8F5/data/Containers/Data/Application/5806AAE8-C7B1-4695-BEDF-D3E72E506BAF/Documents/ExponentExperienceData/@anonymous/fuel-calc-cac814ca-a4b3-4c87-a734-ceb1edf98f89/SQLite/fuelcalc.db
+```
