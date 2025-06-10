@@ -3,6 +3,7 @@
         "name": "fuel-calc",
         "slug": "fuel-calc",
         "version": "1.0.0",
+        "platforms": ["ios", "android"],
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
         "scheme": "fuelcalc",
