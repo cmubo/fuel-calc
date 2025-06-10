@@ -29,13 +29,7 @@ export default function TabLayout() {
                         headerShown: false,
                         tabBarActiveTintColor: "white",
                         tabBarInactiveTintColor: "white",
-                        animation: "fade",
-                        transitionSpec: {
-                            animation: "timing",
-                            config: {
-                                duration: 150,
-                            },
-                        },
+                        animation: "shift",
                     }}
                 >
                     <Tabs.Screen

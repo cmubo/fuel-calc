@@ -36,3 +36,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+
+# Custom
+android/keystores/*.keystore
