@@ -1,8 +1,7 @@
 import { twColors } from "@/constants/Colors";
-import { DATABASE_NAME, db, expoDb } from "@/db/db";
+import { DATABASE_NAME, db } from "@/db/db";
 import migrations from "@/db/migrations/migrations";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
-import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
 import { SQLiteProvider } from "expo-sqlite";
 import { Suspense } from "react";
 import { ActivityIndicator, View } from "react-native";
@@ -14,7 +13,6 @@ export default function DBProvider({
     children: React.ReactNode;
 }) {
     const { success, error } = useMigrations(db, migrations);
-    useDrizzleStudio(expoDb);
 
     if (error) {
         return (
@@ -38,11 +36,7 @@ export default function DBProvider({
 
     return (
         <Suspense fallback={<ActivityIndicator size="large" />}>
-            <SQLiteProvider
-                databaseName={DATABASE_NAME}
-                options={{ enableChangeListener: true }}
-                useSuspense
-            >
+            <SQLiteProvider databaseName={DATABASE_NAME} useSuspense>
                 {children}
             </SQLiteProvider>
         </Suspense>

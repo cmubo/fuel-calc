@@ -113,7 +113,7 @@ function FuelPriceItem({
     });
 
     return (
-        <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-900 p-4 w-full items-start justify-start">
+        <View className="flex-1 flex-row gap-4 rounded shadow bg-slate-950 p-4 w-full items-start justify-start">
             <View className="flex-1 flex-col gap-2 flex-grow w-full">
                 <GroteskTextMedium className="text-slate-200">
                     {name}
