@@ -9,7 +9,7 @@ import reusableStyles from "@/constants/reusable-styles";
 import { fuelPricesTable } from "@/db/schema";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
-import { TouchableOpacity, View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import useJourneyForm from "../hooks/useJourneyForm";
 import SelectFuelPriceModal from "./SelectFuelPriceModal";
 
@@ -68,15 +68,21 @@ export default function JourneyForm({
                     label="Date of journey"
                     errors={errors.dateOfJourney}
                 >
-                    <TextInput
-                        name="dateOfJourney"
-                        className={reusableStyles.textInput}
-                        autoCorrect={false}
-                        editable={false}
+                    <Pressable
                         onPress={() => {
                             setDatepickerModalOpen(true);
                         }}
-                    />
+                    >
+                        <TextInput
+                            name="dateOfJourney"
+                            className={reusableStyles.textInput}
+                            autoCorrect={false}
+                            editable={false}
+                            onPress={() => {
+                                setDatepickerModalOpen(true);
+                            }}
+                        />
+                    </Pressable>
                     <View>
                         <DatePicker
                             name="dateOfJourney"
