@@ -10,7 +10,6 @@ export default function SettingsRootLayout() {
                     backgroundColor: twColors.slate[900],
                 },
                 headerTintColor: twColors.white,
-                animation: "fade_from_bottom",
             }}
         >
             <Stack.Screen
