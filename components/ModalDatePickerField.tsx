@@ -25,7 +25,7 @@ export default function ModalDatePickerField({
             day: "numeric",
         };
 
-        return new Date(field.value).toLocaleDateString("default", options);
+        return new Date(field.value).toLocaleDateString("en-gb", options);
     }, [field.value]);
 
     return (
