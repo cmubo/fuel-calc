@@ -2,7 +2,7 @@ import ConfirmationButton from "@/components/ConfirmationButton";
 import DatePicker from "@/components/DatePicker";
 import HeroIcon from "@/components/icons/HeroIcon";
 import InputWrapper from "@/components/InputWrapper";
-import { GroteskTextMedium } from "@/components/StyledText";
+import { GroteskText, GroteskTextMedium } from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import { twColors } from "@/constants/Colors";
 import reusableStyles from "@/constants/reusable-styles";
@@ -45,6 +45,8 @@ export default function JourneyForm({
         setValue,
         setCostsCallbackRef,
         form,
+        litresUsed,
+        gallonsUsed,
     } = useJourneyForm({
         journey,
         onSuccessfulSubmitCallback,
@@ -158,6 +160,14 @@ export default function JourneyForm({
                         <GroteskTextMedium className="text-white text-3xl">
                             £{splitCost}
                         </GroteskTextMedium>
+                    </View>
+                    <View>
+                        <GroteskTextMedium className="text-white text-lg">
+                            Fuel Used:
+                        </GroteskTextMedium>
+                        <GroteskText className="text-white text-lg">
+                            {litresUsed} litres or {gallonsUsed} gallons
+                        </GroteskText>
                     </View>
                 </View>
 
