@@ -27,7 +27,11 @@ export const STEPS: StepsType = {
         label: "Date of Journey",
         field: "dateOfJourney",
         formatValue: (value: string) =>
-            new Date(value).toLocaleDateString("en-GB"),
+            new Date(value).toLocaleDateString("en-gb", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            }),
     },
     6: {
         name: "title",

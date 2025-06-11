@@ -1,4 +1,5 @@
-import DateAdded from "@/components/DatePicker";
+import DatePicker from "@/components/DatePicker";
+import ModalDatePickerField from "@/components/ModalDatePickerField";
 import {
     GroteskText,
     GroteskTextBold,
@@ -12,6 +13,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { FieldErrors, UseFormReturn } from "react-hook-form";
 import {
     Keyboard,
+    Platform,
     TextInput as RNTextInput,
     StyleSheet,
     TouchableOpacity,
@@ -199,7 +201,7 @@ export default function CalculatorWizardSteps({
                     label="Date of your journey"
                     errors={errors.dateOfJourney}
                 >
-                    <DateAdded name="dateOfJourney" />
+                    <DateAdded />
                 </InputWrapper>
             </View>
 
@@ -294,6 +296,20 @@ function FinalCostStep({
         </View>
     );
 }
+
+function DateAdded() {
+    if (Platform.OS === "ios") {
+        return <DatePicker name="dateOfJourney" />;
+    }
+
+    return (
+        <ModalDatePickerField
+            name="dateOfJourney"
+            buttonStyles={styles.textInput}
+        />
+    );
+}
+
 const styles = StyleSheet.create({
     slider: {
         flexDirection: "row",
