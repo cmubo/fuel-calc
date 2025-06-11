@@ -20,9 +20,13 @@ export default function DatePicker({
     const { field } = useController({ name });
     const [date, setDate] = useState(new Date(field.value));
 
-    const onSelectCallback = useCallback((value: Date) => {
+    const changeDate = useCallback((value: Date) => {
         setDate(value);
         field.onChange(value.toISOString().split("T")[0]);
+    }, []);
+
+    const onSelectCallback = useCallback((value: Date) => {
+        changeDate(value);
 
         setOpen ? setOpen(false) : null;
     }, []);
@@ -32,7 +36,7 @@ export default function DatePicker({
             <RNDatePicker
                 date={date}
                 mode="date"
-                onDateChange={onSelectCallback}
+                onDateChange={changeDate}
                 onConfirm={onSelectCallback}
                 onCancel={() => (setOpen ? setOpen(false) : null)}
                 open={open}
