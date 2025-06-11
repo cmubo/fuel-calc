@@ -21,14 +21,15 @@ export default function CalculatorWizard({
         PreviousFormValueType[]
     >([]);
 
-    const { splitCost, cost, errors, form, onSubmit } = useJourneyForm({
-        onSuccessfulSubmitCallback: (result) => {
-            setCurrentIndex(Object.keys(STEPS).length - 1);
-            setSavedJourneyId(result.id);
-            setPreviousValues([]);
-        },
-        defaultFuelPrice,
-    });
+    const { splitCost, cost, errors, form, onSubmit, litresUsed, gallonsUsed } =
+        useJourneyForm({
+            onSuccessfulSubmitCallback: (result) => {
+                setCurrentIndex(Object.keys(STEPS).length - 1);
+                setSavedJourneyId(result.id);
+                setPreviousValues([]);
+            },
+            defaultFuelPrice,
+        });
 
     const handleNavigation = async (direction: "forward" | "back") => {
         if (
@@ -67,6 +68,8 @@ export default function CalculatorWizard({
                         errors={errors}
                         cost={cost}
                         splitCost={splitCost}
+                        litresUsed={litresUsed}
+                        gallonsUsed={gallonsUsed}
                         form={form}
                         savedJourneyId={savedJourneyId}
                     />

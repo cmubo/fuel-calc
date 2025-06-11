@@ -1,10 +1,14 @@
 import DateAdded from "@/components/DatePicker";
-import { GroteskTextBold, GroteskTextMedium } from "@/components/StyledText";
+import {
+    GroteskText,
+    GroteskTextBold,
+    GroteskTextMedium,
+} from "@/components/StyledText";
 import TextInput from "@/components/TextInput";
 import { twColors } from "@/constants/Colors";
 import { JourneyRawFormValues } from "@/features/journeys/hooks/useJourneyForm";
 import { Link } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { FieldErrors, UseFormReturn } from "react-hook-form";
 import {
     Keyboard,
@@ -13,6 +17,7 @@ import {
     TouchableOpacity,
     useWindowDimensions,
     View,
+    ViewStyle,
 } from "react-native";
 import Animated, {
     Easing,
@@ -32,6 +37,8 @@ export default function CalculatorWizardSteps({
     splitCost,
     form,
     savedJourneyId,
+    litresUsed,
+    gallonsUsed,
 }: {
     index: number;
     errors: FieldErrors<JourneyRawFormValues>;
@@ -39,6 +46,8 @@ export default function CalculatorWizardSteps({
     splitCost: string;
     form: UseFormReturn<JourneyRawFormValues, any, JourneyRawFormValues>;
     savedJourneyId: number | null;
+    litresUsed: string;
+    gallonsUsed: string;
 }) {
     const currentStep = STEPS[index.toString()];
     const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
@@ -63,6 +72,14 @@ export default function CalculatorWizardSteps({
         ],
     }));
 
+    const slideStyles = useMemo(() => {
+        return {
+            width: SCREEN_WIDTH,
+            padding: 24,
+            justifyContent: "center",
+        } as ViewStyle;
+    }, [SCREEN_WIDTH]);
+
     useEffect(() => {
         sliderTranslateX.value = -(SCREEN_WIDTH * index);
 
@@ -85,7 +102,7 @@ export default function CalculatorWizardSteps({
                 { paddingTop: insets.top },
             ]}
         >
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <InputWrapper
                     label="MPG"
                     subLabel="(Miles Per Gallon)"
@@ -103,7 +120,7 @@ export default function CalculatorWizardSteps({
                     />
                 </InputWrapper>
             </View>
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <InputWrapper
                     label="Price Per Litre"
                     subLabel="(Pence)"
@@ -130,7 +147,7 @@ export default function CalculatorWizardSteps({
                 </InputWrapper>
             </View>
 
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <InputWrapper
                     label="Distance"
                     subLabel="(Miles)"
@@ -149,7 +166,7 @@ export default function CalculatorWizardSteps({
                 </InputWrapper>
             </View>
 
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <InputWrapper
                     label="Split Between"
                     subLabel="(# of people)"
@@ -168,11 +185,16 @@ export default function CalculatorWizardSteps({
                 </InputWrapper>
             </View>
 
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
-                <FinalCostStep cost={cost} splitCost={splitCost} />
+            <View style={slideStyles}>
+                <FinalCostStep
+                    cost={cost}
+                    splitCost={splitCost}
+                    litresUsed={litresUsed}
+                    gallonsUsed={gallonsUsed}
+                />
             </View>
 
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <InputWrapper
                     label="Date of your journey"
                     errors={errors.dateOfJourney}
@@ -181,7 +203,7 @@ export default function CalculatorWizardSteps({
                 </InputWrapper>
             </View>
 
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <InputWrapper
                     label="Title"
                     subLabel="(Name your journey)"
@@ -199,7 +221,7 @@ export default function CalculatorWizardSteps({
                 </InputWrapper>
             </View>
 
-            <View style={{ width: SCREEN_WIDTH, padding: 24 }}>
+            <View style={slideStyles}>
                 <View>
                     <GroteskTextBold className="text-white text-3xl">
                         Success!
@@ -233,9 +255,16 @@ export default function CalculatorWizardSteps({
 interface FinalCostStepProps {
     cost: string;
     splitCost: string;
+    litresUsed: string;
+    gallonsUsed: string;
 }
 
-function FinalCostStep({ cost, splitCost }: FinalCostStepProps) {
+function FinalCostStep({
+    cost,
+    splitCost,
+    litresUsed,
+    gallonsUsed,
+}: FinalCostStepProps) {
     return (
         <View className="gap-2">
             <View>
@@ -253,6 +282,14 @@ function FinalCostStep({ cost, splitCost }: FinalCostStepProps) {
                 <GroteskTextMedium className="text-white text-3xl">
                     £{splitCost}
                 </GroteskTextMedium>
+            </View>
+            <View>
+                <GroteskTextMedium className="text-white text-lg">
+                    Fuel Used:
+                </GroteskTextMedium>
+                <GroteskText className="text-white text-lg">
+                    {litresUsed} litres or {gallonsUsed} gallons
+                </GroteskText>
             </View>
         </View>
     );

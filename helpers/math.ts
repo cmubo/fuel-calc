@@ -1,5 +1,7 @@
 // TODO: unit tests for this file
 
+const LITRES_PER_GALLON = 4.546;
+
 // https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
 export const DecimalPrecision2 = (function () {
     if (Number.EPSILON === undefined) {
@@ -33,7 +35,7 @@ export function calculatePriceOfFuel(
     mpg: number,
 ): number {
     const gallonsUsed = distance / mpg;
-    const litresOfFuelUsed = gallonsUsed * 4.546;
+    const litresOfFuelUsed = gallonsUsed * LITRES_PER_GALLON;
 
     let cost = litresOfFuelUsed * pricePerLitre;
 
@@ -45,4 +47,12 @@ export function priceOfFuelToCurrency(
     splitCostBy: number = 1,
 ): string {
     return DecimalPrecision2.round(price / splitCostBy / 100, 2).toFixed(2);
+}
+
+export function getGallonsOfFuelUsed(distance: number, mpg: number) {
+    return DecimalPrecision2.round(distance / mpg, 2);
+}
+
+export function getLitresOfFuelUsedFromGallonsUsed(gallonsUsed: number) {
+    return DecimalPrecision2.round(gallonsUsed * LITRES_PER_GALLON, 2);
 }

@@ -2,6 +2,8 @@ import { fuelPricesTable, journeysTable } from "@/db/schema";
 import {
     calculatePriceOfFuel,
     DecimalPrecision2,
+    getGallonsOfFuelUsed,
+    getLitresOfFuelUsedFromGallonsUsed,
     priceOfFuelToCurrency,
 } from "@/helpers/math";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,6 +51,8 @@ export default function useJourneyForm({
     const queryClient = useQueryClient();
     const [splitCost, setSplitCost] = useState("0");
     const [cost, setCost] = useState("0");
+    const [litresUsed, setLitresUsed] = useState("0");
+    const [gallonsUsed, setGallonsUsed] = useState("0");
     const sqliteContext = useSQLiteContext();
 
     const form = useForm<JourneyRawFormValues>({
@@ -87,6 +91,17 @@ export default function useJourneyForm({
     const setCostsCallbackRef = useCallback(() => {
         if (!journey?.price) return;
 
+        if (journey?.distanceInMiles && journey?.mpg) {
+            const gallonsUsed = getGallonsOfFuelUsed(
+                Number(journey.distanceInMiles),
+                Number(journey.mpg),
+            );
+            const litresUsed = getLitresOfFuelUsedFromGallonsUsed(gallonsUsed);
+
+            setGallonsUsed(String(gallonsUsed));
+            setLitresUsed(String(litresUsed));
+        }
+
         setCost(journey.price.toFixed(2));
 
         if (journey?.splitBetween) {
@@ -97,7 +112,12 @@ export default function useJourneyForm({
                 ).toFixed(2),
             );
         }
-    }, [journey?.price, journey?.splitBetween]);
+    }, [
+        journey?.price,
+        journey?.splitBetween,
+        journey?.distanceInMiles,
+        journey?.mpg,
+    ]);
 
     useEffect(() => {
         const { unsubscribe } = watch((values) => {
@@ -130,6 +150,15 @@ export default function useJourneyForm({
                 Number(pricePerLitre),
                 Number(mpg),
             );
+
+            const gallonsUsed = getGallonsOfFuelUsed(
+                Number(distanceInMiles),
+                Number(mpg),
+            );
+            const litresUsed = getLitresOfFuelUsedFromGallonsUsed(gallonsUsed);
+
+            setGallonsUsed(String(gallonsUsed));
+            setLitresUsed(String(litresUsed));
 
             const costFormatted = priceOfFuelToCurrency(cost);
 
@@ -193,6 +222,8 @@ export default function useJourneyForm({
     return {
         splitCost,
         cost,
+        gallonsUsed,
+        litresUsed,
         onSubmit,
         handleSubmit,
         errors,

@@ -1,6 +1,8 @@
 import {
     calculatePriceOfFuel,
     DecimalPrecision2,
+    getGallonsOfFuelUsed,
+    getLitresOfFuelUsedFromGallonsUsed,
     priceOfFuelToCurrency,
 } from "../math";
 
@@ -73,5 +75,19 @@ describe("Math functions", () => {
 
             expect(answer).toBe(calc.answer);
         });
+    });
+
+    test("getLitresOfFuelUsedFromGallonsUsed function", () => {
+        expect(getLitresOfFuelUsedFromGallonsUsed(1)).toBe(4.55);
+        expect(getLitresOfFuelUsedFromGallonsUsed(2)).toBe(9.09);
+        expect(getLitresOfFuelUsedFromGallonsUsed(3)).toBe(13.64);
+        expect(getLitresOfFuelUsedFromGallonsUsed(4)).toBe(18.18);
+    });
+
+    test("getGallonsOfFuelUsed function", () => {
+        expect(getGallonsOfFuelUsed(100, 50)).toBe(2);
+        expect(getGallonsOfFuelUsed(200, 50)).toBe(4);
+        expect(getGallonsOfFuelUsed(125, 43.2)).toBe(2.89);
+        expect(getGallonsOfFuelUsed(543, 43.2)).toBe(12.57);
     });
 });
