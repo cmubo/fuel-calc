@@ -5,23 +5,24 @@
         "version": "1.0.0",
         "platforms": ["ios", "android"],
         "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
+        "icon": "./assets/images/ios/ios-light.png",
         "scheme": "fuelcalc",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
-        "splash": {
-            "image": "./assets/images/splash-icon.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.anonymous.fuel-calc"
+            "bundleIdentifier": "com.anonymous.fuel-calc",
+            "icon": {
+                "dark": "./assets/images/ios/ios-dark.png",
+                "light": "./assets/images/ios/ios-light.png",
+                "tinted": "./assets/images/ios/ios-tinted.png"
+            }
         },
         "android": {
+            "icon": "./assets/images/android/adaptive-icon.png",
             "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#ffffff"
+                "foregroundImage": "./assets/images/android/adaptive-icon.png",
+                "backgroundColor": "#020617"
             },
             "edgeToEdgeEnabled": true,
             "package": "com.anonymous.fuelcalc"
@@ -40,6 +41,20 @@
                         "parentTheme": "Default",
                         "enforceNavigationBarContrast": false
                     }
+                }
+            ],
+            [
+                "expo-splash-screen",
+                {
+                    "image": "./assets/images/splash-icon-dark.png",
+                    "resizeMode": "contain",
+                    "backgroundColor": "#94a3b8",
+                    "dark": {
+                        "image": "./assets/images/splash-icon-light.png",
+                        "backgroundColor": "#020617",
+                        "resizeMode": "contain"
+                    },
+                    "imageWidth": 200
                 }
             ]
         ],
