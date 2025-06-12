@@ -8,9 +8,9 @@ There are no accounts, no ads, no analytics, no external APIs, no internet acces
 
 ## Android Downloads
 
-[Latest Version v1.0.0 Download](https://github.com/cmubo/fuel-calc/tree/main/downloads/android/downloads/fuel-calc-v1.0.0.apk)
+[Latest Version v1.0.0 Download](https://raw.githubusercontent.com/cmubo/fuel-calc/refs/heads/main/downloads/android/fuel-calc-v1.0.0.apk)
 
-Any previous versions can be found [here](https://github.com/cmubo/fuel-calc/tree/main/downloads/android/downloads/).
+Any previous versions can be found [here](https://github.com/cmubo/fuel-calc/tree/main/downloads/android).
 
 # Locally creating builds
 
