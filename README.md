@@ -6,6 +6,12 @@ You can also save your past journeys to keep track of what you're spending.
 
 There are no accounts, no ads, no analytics, no external APIs, no internet access needed at all. It's just an app and a database stored locally.
 
+## Android Downloads
+
+[Latest Version v1.0.0 Download](https://github.com/cmubo/fuel-calc/tree/main/downloads/android/downloads/fuel-calc-v1.0.0.apk)
+
+Any previous versions can be found [here](https://github.com/cmubo/fuel-calc/tree/main/downloads/android/downloads/).
+
 # Locally creating builds
 
 ## Android
